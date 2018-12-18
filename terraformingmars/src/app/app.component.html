@@ -12,11 +12,11 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-warning is-outlined">
+                <a class="button is-warning is-outlined" [routerLink]="['/game','new']" >
                   New Game
                 </a>
-                <a class="button is-link is-outlined">
-                  Register
+                <a class="button is-link is-outlined" (click)="modalOptions.modalIsOpen=true">
+                  Login
                 </a>
               </div>
             </div>
@@ -53,3 +53,4 @@
     </div>
   </div>
 </div>
+<app-login-reg [showLogin]="modalOptions" *ngIf="modalOptions.modalIsOpen"></app-login-reg>
