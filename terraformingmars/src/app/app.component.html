@@ -1,0 +1,55 @@
+<section class="hero is-medium">
+  <!-- Hero head: will stick at the top -->
+  <div class="hero-head">
+    <nav class="navbar is-fixed-top">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item">
+            <img src="../assets/mars_planet_PNG39.png">&nbsp;&nbsp;
+            <i class="has-text-weight-bold is-size-5 logo">Terraforming Mars</i> </a>
+        </div>
+        <div id="navbarMenuHeroA" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-warning is-outlined">
+                  New Game
+                </a>
+                <a class="button is-link is-outlined">
+                  Register
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <br><br>
+    </div>
+  </div>
+
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+    <nav class="tabs">
+      <div class="container">
+        <ul>
+          <li class="{{currentUrl ==  'home' ?  'is-active': ''}}"><a [routerLink]="['/home']">Rating</a></li>
+          <li class="{{currentUrl ==  'games' ?  'is-active': ''}}"><a [routerLink]="['/games']">Games</a></li>
+          <li class="{{currentUrl ==  'game' ?  'is-active': ''}}"><a [routerLink]="['/game','new']">New Game</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+<div class="container">
+  <div class="columns is-gapless is-marginless">
+    <div class="column keep-overflow">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
