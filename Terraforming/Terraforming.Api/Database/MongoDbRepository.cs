@@ -21,38 +21,38 @@ namespace Terraforming.Api.Database
             this.collection = database.GetCollection<T>(collectionName);
         }
 
-        public virtual async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
         {
-            var documents = await this.collection.FindAsync(predicate);
-            var result = await documents.ToListAsync();
+            var documents = this.collection.Find(predicate);
+            var result = documents.ToList();
 
             return result;
         }
 
-        public virtual async Task<IEnumerable<T>> Get(FilterDefinition<T> filter)
+        public virtual IEnumerable<T> Get(FilterDefinition<T> filter)
         {
-            var documents = await this.collection.FindAsync(filter);
-            var result = await documents.ToListAsync();
+            var documents = this.collection.Find(filter);
+            var result = documents.ToList();
             return result;
         }
 
-        public virtual async Task<T> GetById(string id)
+        public virtual T GetById(string id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
-            var result = await collection.Find(filter).SingleOrDefaultAsync();
+            var result = collection.Find(filter).SingleOrDefault();
 
             return result;
         }
 
-        public virtual async Task<IEnumerable<T>> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
-            var documents = await this.collection.FindAsync(x => true);
-            var result = await documents.ToListAsync();
+            var documents = this.collection.Find(x => true);
+            var result = documents.ToList();
 
             return result;
         }
 
-        public virtual async Task<IEnumerable<T>> GetPage(Expression<Func<T, bool>> predicate, int page, int pageSize, ProjectionDefinition<T> projection = null)
+        public virtual IEnumerable<T> GetPage(Expression<Func<T, bool>> predicate, int page, int pageSize, ProjectionDefinition<T> projection = null)
         {
             var documents = this.collection.Find(predicate)
                 .Skip(page > 0 ? (page - 1) * pageSize : 0)
@@ -61,12 +61,12 @@ namespace Terraforming.Api.Database
             {
                 documents = documents.Project<T>(projection);
             }
-            var result = await documents.ToListAsync();
+            var result = documents.ToList();
 
             return result;
         }
 
-        public virtual async Task<IEnumerable<T>> GetPage(FilterDefinition<T> filter, int page, int pageSize, ProjectionDefinition<T> projection = null)
+        public virtual IEnumerable<T> GetPage(FilterDefinition<T> filter, int page, int pageSize, ProjectionDefinition<T> projection = null)
         {
             var documents = this.collection.Find(filter)
                 .Skip(page > 0 ? (page - 1) * pageSize : 0)
@@ -75,20 +75,20 @@ namespace Terraforming.Api.Database
             {
                 documents = documents.Project<T>(projection);
             }
-            var result = await documents.ToListAsync();
+            var result = documents.ToList();
             return result;
         }
 
-        public virtual async Task<T> Insert(T entity)
+        public virtual T Insert(T entity)
         {
             entity.Updated = DateTime.UtcNow;
 
-            await collection.InsertOneAsync(entity);
+            collection.InsertOne(entity);
 
             return entity;
         }
 
-        public virtual async Task<IEnumerable<T>> InsertMany(IEnumerable<T> entities)
+        public virtual IEnumerable<T> InsertMany(IEnumerable<T> entities)
         {
             if (entities == null || entities.Count() == 0)
                 return new List<T>().AsEnumerable();
@@ -99,58 +99,58 @@ namespace Terraforming.Api.Database
                     x.Updated = DateTime.UtcNow;
                     return x;
                 });
-                await collection.InsertManyAsync(entities);
+                collection.InsertMany(entities);
                 return entities;
             }
         }
 
-        public virtual async Task<T> Update(T entity)
+        public virtual T Update(T entity)
         {
             var filter = Builders<T>.Filter.Eq("Id", entity.Id);
-            var current = await collection.Find(filter).SingleAsync();
+            var current = collection.Find(filter).Single();
             entity.Updated = DateTime.UtcNow;
-            var result = await collection.ReplaceOneAsync(filter, entity);
+            var result = collection.ReplaceOne(filter, entity);
 
             return entity;
 
         }
 
-        public virtual async Task<bool> Delete(string id)
+        public virtual bool Delete(string id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
-            var result = await collection.DeleteOneAsync(filter);
+            var result = collection.DeleteOne(filter);
 
             return result.IsAcknowledged && result.DeletedCount == 1;
         }
 
-        public virtual async Task<bool> Delete(T entity)
+        public virtual bool Delete(T entity)
         {
-            return await this.Delete(entity.Id);
+            return this.Delete(entity.Id);
         }
 
-        public virtual async Task<bool> Delete(Expression<Func<T, bool>> predicate)
+        public virtual bool Delete(Expression<Func<T, bool>> predicate)
         {
-            var result = await collection.DeleteManyAsync(predicate);
+            var result = collection.DeleteMany(predicate);
 
             return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
-        public virtual async Task<bool> DeleteAll()
+        public virtual bool DeleteAll()
         {
-            var result = await collection.DeleteManyAsync(x => true);
+            var result = collection.DeleteMany(x => true);
 
             return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
-        public virtual async Task<int> Count(Expression<Func<T, bool>> predicate)
+        public virtual int Count(Expression<Func<T, bool>> predicate)
         {
-            var count = await this.collection.CountDocumentsAsync(predicate);
+            var count = this.collection.CountDocuments(predicate);
             return (int)count;
         }
 
-        public virtual async Task<int> Count(FilterDefinition<T> filter)
+        public virtual int Count(FilterDefinition<T> filter)
         {
-            var count = await this.collection.CountDocumentsAsync(filter);
+            var count = this.collection.CountDocuments(filter);
             return (int)count;
         }
     }

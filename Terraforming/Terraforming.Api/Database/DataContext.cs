@@ -11,7 +11,7 @@ namespace Terraforming.Api.Database
     public class DataContext
     {
         public IMongoDatabase Database { get; private set; }
-       
+
         public MongoDbRepository<User> Users { get; set; }
         public MongoDbRepository<Game> Games { get; set; }
 
@@ -29,7 +29,7 @@ namespace Terraforming.Api.Database
             this.Database = client.GetDatabase(url.DatabaseName);
 
             Users = new MongoDbRepository<User>(this.Database, "users");
-            Users = new MongoDbRepository<User>(this.Database, "games");
+            Games = new MongoDbRepository<Game>(this.Database, "games");
 
         }
     }

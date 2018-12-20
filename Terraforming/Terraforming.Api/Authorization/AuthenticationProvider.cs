@@ -43,7 +43,7 @@ namespace Terraforming.Api.Authorization
             return token;
         }
 
-       
+
 
     }
 }

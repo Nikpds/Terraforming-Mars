@@ -1,0 +1,62 @@
+<section class="hero is-medium">
+  <div class="is-overlay-ctm"></div>
+  <!-- Hero head: will stick at the top -->
+  <div class="hero-head">
+    <nav class="navbar is-fixed-top">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item">
+            <img src="../assets/mars_planet_PNG39.png">&nbsp;&nbsp;
+            <i class="has-text-weight-bold is-size-5 logo">Terraforming Mars</i> </a>
+        </div>
+        <div id="navbarMenuHeroA" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-warning is-outlined" [routerLink]="['/game','new']" *ngIf="user">
+                  New Game
+                </a>
+                <a class="button is-link is-outlined" (click)="modalOptions.modalIsOpen = true" *ngIf="!user">
+                  Login
+                </a>
+                <a class="button is-warning is-outlined" (click)="modalOptions.modalIsOpen = true;modalOptions.isReg = true"
+                  *ngIf="!user">
+                  Register
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="hero-img">
+      <img class="mars-image spinplanet" src="../../assets/mars-planet.webp" alt="">
+    </div>
+    <div class="container has-text-centered">
+      <br>
+      <p class="has-text-link title is-1 line-1 anim-typewriter">Terraforming Mars </p>
+      <br>
+    </div>
+  </div>
+
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+    <nav class="tabs">
+      <div class="container">
+        <ul>
+          <li class="{{currentUrl ==  'home' ?  'is-active': ''}}"><a [routerLink]="['/home']">News</a></li>
+          <li class="{{currentUrl ==  'ratings' ?  'is-active': ''}}"><a [routerLink]="['/ratings']" *ngIf="user">Ratings</a></li>
+          <li class="{{currentUrl ==  'games' ?  'is-active': ''}}"><a [routerLink]="['/games']" *ngIf="user">Games</a></li>
+          <li class="{{currentUrl ==  'game' ?  'is-active': ''}}"><a [routerLink]="['/game','new']" *ngIf="user">New
+              Game</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<app-login-reg [showLogin]="modalOptions" *ngIf="modalOptions.modalIsOpen"></app-login-reg>
