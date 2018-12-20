@@ -31,6 +31,24 @@ namespace Terraforming.Api
         {
             services.AddSingleton<DataContext>(p => context);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(cfg =>
+            //{
+            //    cfg.RequireHttpsMetadata = false;
+            //    cfg.SaveToken = true;
+
+            //    cfg.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        ValidIssuer = Configuration["Tokens:Issuer"],
+            //        ValidAudience = Configuration["Tokens:Issuer"],
+            //        IssuerSigningKey = _signingKey
+            //    };
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
