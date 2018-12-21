@@ -12,7 +12,27 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { RatingsComponent } from './ratings/ratings.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angular-6-social-login';
+export function getAuthServiceConfigs() {
+  const config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider('393201351417039')
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider('869537187845-6ek57er8a90eg87i5l9r5j0h0oe6q3m7.apps.googleusercontent.com')
+      }
+    ]
+  );
+  return config;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,9 +46,17 @@ import { NavbarComponent } from './navbar/navbar.component';
   imports: [
     BrowserModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SocialLoginModule
   ],
-  providers: [MainService, AuthService, AuthGuard],
+  providers: [
+    MainService,
+    AuthService,
+    AuthGuard,
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

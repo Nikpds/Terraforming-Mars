@@ -13,8 +13,11 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-warning is-outlined" [routerLink]="['/game','new']" *ngIf="user">
+                <a class="button is-link is-outlined" [routerLink]="['/game','new']" *ngIf="user">
                   New Game
+                </a>
+                <a class="button is-warning is-outlined" (click)="logout()" *ngIf="user">
+                  Logout
                 </a>
                 <a class="button is-link is-outlined" (click)="modalOptions.modalIsOpen = true" *ngIf="!user">
                   Login
@@ -38,7 +41,7 @@
     </div>
     <div class="container has-text-centered">
       <br>
-      <p class="has-text-link title is-1 line-1 anim-typewriter">Terraforming Mars </p>  
+      <p class="has-text-link title is-1 line-1 anim-typewriter is-unselectable">Terraforming Mars </p>
     </div>
   </div>
 

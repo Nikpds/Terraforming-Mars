@@ -29,6 +29,8 @@ namespace Terraforming.Api.Authorization
 
             claims.Add(new Claim("Id", user.Id));
             claims.Add(new Claim("Lastname", user.Lastname));
+            claims.Add(new Claim("Name", user.Firstname));
+            claims.Add(new Claim("Email", user.Email));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

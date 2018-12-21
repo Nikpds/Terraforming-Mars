@@ -31,17 +31,17 @@ namespace Terraforming.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]User user)
+        public IActionResult Register([FromBody]User user)
         {
             try
             {
                 //check for email duplicates
                 var mailfilter = Builders<User>.Filter.Eq(x => x.Email, user.Email.ToLower());
-                var mailcursor = await _db.Users.Collection.FindAsync(mailfilter);
-                var mailExists = await mailcursor.AnyAsync();
+                var mailcursor = _db.Users.Collection.Find(mailfilter);
+                var mailExists = mailcursor.Any();
                 if (mailExists)
                 {
-                    return this.BadRequest("Email already exists");
+                    return BadRequest("Email already exists");
                 }
                 //insert new user
                 user.Email = user.Email.ToLower();
@@ -50,13 +50,13 @@ namespace Terraforming.Api.Controllers
                 user.VerificationToken = string.Empty;
 
                 //To do initiate email validation
-                user = await _db.Users.Insert(user);
+                user = _db.Users.Insert(user);
                 user.PasswordHash = null;
                 return Ok(user);
             }
             catch (Exception exc)
             {
-                return this.BadRequest(exc.Message);
+                return BadRequest(exc.Message);
             }
         }
 
@@ -94,6 +94,38 @@ namespace Terraforming.Api.Controllers
             catch (Exception exc)
             {
                 return BadRequest("Σφάλμα στην επιβεβαίωση στοιχείων");
+            }
+        }
+
+        [HttpPost("external")]
+        public IActionResult GoogleOrFacebook([FromBody]User user)
+        {
+            try
+            {
+                //check for email duplicates
+                var exists = _db.Users.Get(x => x.Email.ToLower() == user.Email.ToLower()).FirstOrDefault();
+
+                if (exists == null)
+                {
+                    user.Email = user.Email.ToLower();
+                    user.EmailConfirmed = true;
+                    user.ExternaLogin = true;
+                    user.IsActive = true;
+                    user.PasswordHash = string.Empty;
+                    user.VerificationToken = string.Empty;
+                    user = _db.Users.Insert(user);
+                    var userToken = _auth.CreateToken(user);
+                    return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+                }
+                else
+                {
+                    var userToken = _auth.CreateToken(exists);
+                    return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+                }
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
             }
         }
     }

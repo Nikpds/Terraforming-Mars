@@ -19,7 +19,12 @@ export class MainService {
     return this.http.post<User>(`${this.url}/auth`, user)
       .pipe(catchError(this.errorHandler));
   }
-  
+
+  externalRegister(user: User) {
+    return this.http.post<any>(`${this.url}/auth/external`, user)
+      .pipe(catchError(this.errorHandler));
+  }
+
 
   errorHandler(error: HttpErrorResponse) {
     return observableThrowError(error || 'Server Error');

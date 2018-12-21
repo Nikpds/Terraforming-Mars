@@ -28,12 +28,12 @@
             <div class="field">
               <nav class="level">
                 <div class="level-item">
-                  <a class="button is-info is-fullwidth">
+                  <a class="button is-info is-fullwidth" (click)="socialSignIn('facebook')">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                     &nbsp;Facebook</a>&nbsp;
                 </div>
                 <div class="level-item">&nbsp;
-                  <a class="button is-danger is-fullwidth">
+                  <a class="button is-danger is-fullwidth" (click)="socialSignIn('google')">
                     <i class="fa fa-google" aria-hidden="true"></i> &nbsp;Google</a>
                 </div>
               </nav>
@@ -87,6 +87,7 @@
             <br><br>
             <div class="field">
               <a class="button is-link is-outlined is-block" (click)="register()">Register</a>
+              
             </div>
 
             <p>

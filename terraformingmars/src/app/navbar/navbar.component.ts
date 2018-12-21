@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: AuthService
   ) {
-   this.router.events.subscribe(event => {
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const url = (event.url.substr(1)).split('/')[0];
         this.currentUrl = url;
@@ -31,9 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.subscriptions.push(this.auth.user$.subscribe((user) => {
-      if (user) {
-        this.user = user;
-      }
+      this.user = user;
     }));
   }
 

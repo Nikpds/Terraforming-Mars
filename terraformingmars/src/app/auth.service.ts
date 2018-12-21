@@ -47,6 +47,7 @@ export class AuthService {
   initializeUser(token: any) {
     if (!token) { return; }
     const info = this.jwt.decodeToken(token);
+    this.user = new User();
     this.user.id = info.Id;
     this.user.firstname = info.Name;
     this.user.lastname = info.Lastname;
@@ -74,5 +75,9 @@ export class AuthService {
     this.user = null;
     this.loggedIn = false;
     this.router.navigate(['/login']);
+  }
+
+  decodeToken(token: any): any {
+    return this.jwt.decodeToken(token);
   }
 }
