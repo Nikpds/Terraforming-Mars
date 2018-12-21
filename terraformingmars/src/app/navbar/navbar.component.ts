@@ -18,12 +18,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: AuthService
   ) {
-    this.subscriptions.push(this.router.events.subscribe(event => {
+   this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const url = (event.url.substr(1)).split('/')[0];
         this.currentUrl = url;
       }
-    }));
+    });
   }
 
   ngOnDestroy() {
