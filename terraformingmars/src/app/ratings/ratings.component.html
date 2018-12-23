@@ -1,22 +1,36 @@
 <section class="hero is-small">
   <div class="container">
     <div class="hero-body">
-      <table class="table is-fullwidth">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Champion</th>
-            <th>Games</th>
-            <th>Score</th>
-            <th>Total Points</th>
-            <th>Awards</th>
-            <th>Milestones</th>
-            <th>W</th>
-            <th>L</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="card has-background-transparent">
+        <table class="table is-fullwidth is-striped has-background-transparent">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Champion</th>
+              <th>Games</th>
+              <th>Score</th>
+              <th>Total Points</th>
+              <th>Awards</th>
+              <th>Milestones</th>
+              <th>W</th>
+              <th>L</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of users;let i = index">
+              <td>{{i + 1}}</td>
+              <td class="has-text-link">{{item.lastname}} {{item.firstname}}</td>
+              <td>{{item.gameScores.length}}</td>
+              <td>{{item.gameScores.length}}</td>
+              <td>{{getTotalPoints(i)}}</td>
+              <td>{{getTotalAwards(i)}}</td>
+              <td>{{getTotalMilestones(i)}}</td>
+              <td>{{getTotalWins(i)}}</td>
+              <td>{{item.gameScores.length - getTotalWins(i)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </section>

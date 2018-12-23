@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -27,17 +28,15 @@ namespace Terraforming.Api
             var secretKey = Configuration["Tokens:Key"];
             _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             dbConectionString = Configuration.GetConnectionString("DefaultConnection");
-            context = new DataContext(dbConectionString);
         }
         private string dbConectionString { get; }
-        private DataContext context { get; }
         public IConfiguration Configuration { get; }
         private readonly SymmetricSecurityKey _signingKey;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<DataContext>(p => context);
+            services.AddDbContext<MsDataContext>(options => options.UseSqlServer(dbConectionString));
             services.AddTransient<IAuthenticationProvider, AuthenticationProvider>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -60,6 +59,7 @@ namespace Terraforming.Api
             });
             services.AddCors();
             services.AddMvc().AddJsonOptions(o => o.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc)
+            .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
             .AddJsonOptions(o => o.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
         }
 
@@ -67,27 +67,30 @@ namespace Terraforming.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            if (env.IsProduction())
             {
                 app.UseHsts();
-                app.UseHttpsRedirection();
-                app.UseDefaultFiles();
-                app.Use(async (context, next) =>
+                app.Use(async (ctx, next) =>
                 {
+                    ctx.Response.Headers.Add("Content-Security-Policy", "default-src 'self' * 'unsafe-inline' 'unsafe-eval' data:");
                     await next();
-
-                    if (context.Response.StatusCode == 404)
-                    {
-                        context.Request.Path = "/index.html";
-                        await next();
-                    }
                 });
             }
+            app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

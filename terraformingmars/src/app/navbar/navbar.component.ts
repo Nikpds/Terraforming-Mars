@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentUrl = 'home';
   user: User;
   modalOptions = { modalIsOpen: false, isReg: false };
+  openMenu = false;
   constructor(
     private router: Router,
     private auth: AuthService

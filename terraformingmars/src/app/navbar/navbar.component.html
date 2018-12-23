@@ -2,31 +2,39 @@
   <div class="is-overlay-ctm"></div>
   <!-- Hero head: will stick at the top -->
   <div class="hero-head">
-    <nav class="navbar is-fixed-top">
+    <nav class="navbar is-fixed-top is-mobile">
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item">
-            <img src="../assets/mars_planet_PNG39.png">&nbsp;&nbsp;
+          <a class="navbar-item" [routerLink]="['/home']" >
+            <img class="" src="../assets/mars_planet_PNG39.png">&nbsp;&nbsp;
             <i class="has-text-weight-bold is-size-5 logo">Terraforming Mars</i> </a>
+          <a role="button" class="navbar-burger burger" (click)="openMenu = !openMenu" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
         </div>
-        <div id="navbarMenuHeroA" class="navbar-menu">
+        <div class="navbar-menu" [ngClass]="{'is-active': openMenu}"> 
           <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="buttons">
-                <a class="button is-link is-outlined" [routerLink]="['/game','new']" *ngIf="user">
-                  New Game
-                </a>
-                <a class="button is-warning is-outlined" (click)="logout()" *ngIf="user">
-                  Logout
-                </a>
-                <a class="button is-link is-outlined" (click)="modalOptions.modalIsOpen = true" *ngIf="!user">
-                  Login
-                </a>
-                <a class="button is-warning is-outlined" (click)="modalOptions.modalIsOpen = true;modalOptions.isReg = true"
-                  *ngIf="!user">
-                  Register
-                </a>
-              </div>
+            <div class="navbar-item" *ngIf="user">
+              <a class="button is-link is-outlined" [routerLink]="['/game','new']" (click)="openMenu = false">
+                New Game
+              </a>
+            </div>
+            <div class="navbar-item" *ngIf="user">
+              <a class="button is-warning is-outlined" (click)="logout();openMenu = false">
+                Logout
+              </a>
+            </div>
+            <div class="navbar-item" *ngIf="!user">
+              <a class="button is-link is-outlined" [routerLink]="['/login']" (click)="openMenu = false">
+                Login
+              </a>
+            </div>
+            <div class="navbar-item" *ngIf="!user">
+              <a class="button is-warning is-outlined" [routerLink]="['/register']" (click)="openMenu = false">
+                Register
+              </a>
             </div>
           </div>
         </div>
@@ -60,5 +68,3 @@
     </nav>
   </div>
 </section>
-
-<app-login-reg [showLogin]="modalOptions" *ngIf="modalOptions.modalIsOpen"></app-login-reg>

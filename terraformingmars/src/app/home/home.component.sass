@@ -1,7 +1,3 @@
-.first-hero
-    clip-path: polygon(0 0, 100% 0,100% 100%,0 calc(100% - 5vw))
-.second-hero
-    margin-top: -5vw
 .is-256
     width: 256px
     height: 256px
@@ -9,6 +5,7 @@
     border: solid 1px #01ffff00
     box-shadow: 0 0 20px 0px #01ffff
     border-radius: 20px
+
 .level-item
     line-height: 1!important
 .level-item:not(:last-child)
@@ -19,3 +16,15 @@ nav p
 
 .image img
     height: 100%
+
+@media screen and (max-width: 768px)
+    .media
+        display: block
+    .media-left > .image
+        margin: 0 auto 5px
+@media screen and (max-width: 480px)
+    .level-item
+        border-right: none!important
+
+
+    

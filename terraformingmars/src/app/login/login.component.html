@@ -1,0 +1,47 @@
+<section class="section">
+  <form>
+    <div class="container">
+      <div class="columns is-multiline is-centered">
+        <div class="column is-4 has-text-centered" >
+          <p class="has-text-weight-bold title is-3 has-text-link title-login">Login</p>
+          <p class=" has-text-link title-login subtitle">join the cause</p>
+          <br>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input" [(ngModel)]="username" autocomplete=on type="text" name="username"
+                placeholder="Username">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input  is-link tran-input" [(ngModel)]="password" autocomplete=on type="password" name="password"
+                placeholder="Password">
+            </div>
+          </div>
+          <br><br>
+          <div class="field">
+            <a class="button is-link is-outlined is-block" (click)="login()">Login</a>
+          </div>
+          <br><br>
+          <!-- <div class="field">
+            <nav class="level">
+              <div class="level-item">
+                <a class="button is-info is-fullwidth" (click)="socialSignIn('facebook')">
+                  <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                  &nbsp;Facebook</a>&nbsp;
+              </div>
+              <div class="level-item">&nbsp;
+                <a class="button is-danger is-fullwidth" (click)="socialSignIn('google')">
+                  <i class="fa fa-google" aria-hidden="true"></i> &nbsp;Google</a>
+              </div>
+            </nav>
+          </div> -->
+          <p>
+            <a  [routerLink]="['/register']">Don't have an account?</a>
+          </p>
+        </div>
+    
+      </div>
+    </div>
+  </form>
+</section>

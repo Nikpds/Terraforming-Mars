@@ -6,57 +6,42 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GamesListComponent } from './games-list/games-list.component';
 import { GamesDetailsComponent } from './games-details/games-details.component';
-import { LoginRegComponent } from './login-reg/login-reg.component';
+import { LoginComponent } from './login/login.component';
 import { MainService } from './main.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { RatingsComponent } from './ratings/ratings.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from 'angular-6-social-login';
-export function getAuthServiceConfigs() {
-  const config = new AuthServiceConfig(
-    [
-      {
-        id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider('393201351417039')
-      },
-      {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider('869537187845-6ek57er8a90eg87i5l9r5j0h0oe6q3m7.apps.googleusercontent.com')
-      }
-    ]
-  );
-  return config;
-}
+import { AuthInterceptor } from './auth.interceptor';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GamesListComponent,
     GamesDetailsComponent,
-    LoginRegComponent,
+    LoginComponent,
     RatingsComponent,
-    NavbarComponent
+    NavbarComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
-    AppRoutingModule,
-    SocialLoginModule
+    AppRoutingModule
+
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     MainService,
     AuthService,
-    AuthGuard,
-    {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
-    }],
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

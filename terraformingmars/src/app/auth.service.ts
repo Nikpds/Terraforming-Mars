@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError as observableThrowError, Observable, BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './model';
 
@@ -13,8 +12,7 @@ import { environment } from '../environments/environment';
 })
 export class AuthService {
   jwt = new JwtHelperService();
-  private usersUrl = environment.api + 'user';
-  private authUrl = environment.api + 'auth/token';
+  private authUrl = environment.api + '/auth/token';
 
   private loggedInSubject$ = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedInSubject$.asObservable();
@@ -23,7 +21,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) { this.initAuthorization(); }
 
   get loggedIn(): boolean { return this.loggedInSubject$.getValue(); }

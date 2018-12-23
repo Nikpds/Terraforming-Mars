@@ -1,0 +1,52 @@
+<section class="section">
+  <form>
+    <div class="container">
+      <div class="columns is-multiline is-centered">
+        <div class="column is-4 has-text-centered">
+          <p class="has-text-weight-bold title is-3 has-text-link title-login">Register</p>
+          <p class=" has-text-link title-login subtitle">apply for the job</p>
+          <br>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input" [(ngModel)]="user.firstname" autocomplete=on type="text" name="name"
+                placeholder="Name">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input" [(ngModel)]="user.lastname" autocomplete=on type="text" name="lastname"
+                placeholder="Lastname">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input" [(ngModel)]="user.email" autocomplete=on type="email" name="email"
+                placeholder="Email">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input" [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="user.password" autocomplete=on type="password" name="password"
+                placeholder="Password">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-link tran-input"  [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="verifyPassword" autocomplete=on type="password" name="password"
+                placeholder="Confirm Pssword">
+            </div>
+          </div>
+          <br><br>
+          <div class="field">
+            <a class="button is-link is-outlined is-block" (click)="register()">Register</a>
+
+          </div>
+
+          <p>
+            <a [routerLink]="['/login']">Already have an account?</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
