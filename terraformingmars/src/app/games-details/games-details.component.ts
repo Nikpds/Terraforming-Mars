@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User, Game, GameScore, BoardMats } from '../model';
 import { MainService } from '../main.service';
 import { UtilityService } from '../shared/utility.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LoaderService } from '../shared/loader.service';
 
 @Component({
@@ -15,12 +15,13 @@ export class GamesDetailsComponent implements OnInit {
   game: Game;
   gameScore: GameScore;
   boards: any;
-  boardId: any;
+  boardId = 0;
   constructor(
     private service: MainService,
     private activeRoute: ActivatedRoute,
     private utility: UtilityService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -28,8 +29,9 @@ export class GamesDetailsComponent implements OnInit {
       const id = param['id'];
       if (id === 'new') {
         this.game = new Game();
+        this.game.date = new Date();
       } else {
-
+        this.router.navigate(['/home']);
       }
     });
     this.boards = this.utility.parseEnum(BoardMats);
@@ -39,22 +41,20 @@ export class GamesDetailsComponent implements OnInit {
   getPlayers() {
     this.service.getPlayers().subscribe(res => {
       this.players = res;
-      console.log(res);
     }, error => {
 
     });
   }
 
   addPlayer() {
-    if (this.game.gamePlayers.length === 5) {
-      return;
-    }
+    if (this.game.gamePlayers.length === 5) { return; }
     this.gameScore = new GameScore();
   }
 
   addGameScoreToGame() {
+    if (!this.validatePlayerInput(this.gameScore)) { return; }
     this.game.gamePlayers.push(this.gameScore);
-    this.game.gamePlayers.sort(x => x.place);
+    this.game.gamePlayers.sort(function (a, b) { return a.place - b.place; });
     this.gameScore = null;
   }
 
@@ -62,7 +62,6 @@ export class GamesDetailsComponent implements OnInit {
     if (this.game.gamePlayers.length > 0) {
       this.game.gamePlayers.forEach(x => x.board = this.boardId);
     }
-    console.log(this.boardId);
   }
 
   insertGame() {
@@ -90,4 +89,17 @@ export class GamesDetailsComponent implements OnInit {
     const i = this.players.findIndex(x => x.id === id);
     return this.players[i].lastname + ' ' + this.players[i].firstname;
   }
+
+  validatePlayerInput(g: GameScore): boolean {
+    return g.userId && g.points >= 20 && g.place > 0 && g.place < 6 &&
+      g.milestones >= 0 && g.milestones < 4 && g.points > 30 && g.awardsWon >= 0
+      && g.awardsWon < 4 && g.awardsPlaced >= 0 && g.awardsPlaced < 4;
+  }
+
+  removePlayer(i: number) {
+    if (i > -1) {
+      this.game.gamePlayers.splice(i, 1);
+    }
+  }
+
 }

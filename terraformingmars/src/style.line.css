@@ -37,7 +37,7 @@
 }
 
 .spinplanet {
-    animation: rotation 720s infinite linear;
+    animation: rotation 650s infinite linear;
 }
 
 @keyframes rotation {

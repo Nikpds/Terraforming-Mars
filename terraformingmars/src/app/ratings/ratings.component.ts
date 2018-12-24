@@ -43,7 +43,13 @@ export class RatingsComponent implements OnInit {
     return won + '/' + placed;
   }
 
-  getTotalWins(i: number) {
-    return this.users[i].gameScores.filter(x => x.place === 1).length;
+  getTotalCountOfPlacement(i: number, p: number) {
+    return this.users[i].gameScores.filter(x => x.place === p).length;
+  }
+
+  winRatio(i: number) {
+    const wins = this.users[i].gameScores.filter(x => x.place === 1).length;
+    if (wins === 0) { return 0; }
+    return ((this.users[i].gameScores.length / wins) * 100).toFixed(0);
   }
 }

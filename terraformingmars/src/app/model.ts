@@ -35,9 +35,9 @@ export class GameScore {
     game: Game;
     points: number;
     place: number;
-    awardsPlaced: number;
-    awardsWon: number;
-    milestones: number;
+    awardsPlaced = 0;
+    awardsWon = 0;
+    milestones = 0;
     board: BoardMats;
 }
 

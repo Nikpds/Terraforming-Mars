@@ -12,8 +12,11 @@
               <th>Total Points</th>
               <th>Awards</th>
               <th>Milestones</th>
-              <th>W</th>
-              <th>L</th>
+              <th>1st</th>
+              <th>2nd</th>
+              <th>3rd</th>
+              <th>4th</th>
+              <th>5th</th>
             </tr>
           </thead>
           <tbody>
@@ -21,12 +24,17 @@
               <td>{{i + 1}}</td>
               <td class="has-text-link">{{item.lastname}} {{item.firstname}}</td>
               <td>{{item.gameScores.length}}</td>
-              <td>{{item.gameScores.length}}</td>
+              <td>
+                <span class="has-text-primary">{{winRatio(i)}} %</span>
+              </td>
               <td>{{getTotalPoints(i)}}</td>
               <td>{{getTotalAwards(i)}}</td>
               <td>{{getTotalMilestones(i)}}</td>
-              <td>{{getTotalWins(i)}}</td>
-              <td>{{item.gameScores.length - getTotalWins(i)}}</td>
+              <td>{{getTotalCountOfPlacement(i,1)}}</td>
+              <td>{{getTotalCountOfPlacement(i,2)}}</td>
+              <td>{{getTotalCountOfPlacement(i,3)}}</td>
+              <td>{{getTotalCountOfPlacement(i,4)}}</td>
+              <td>{{getTotalCountOfPlacement(i,5)}}</td>
             </tr>
           </tbody>
         </table>
