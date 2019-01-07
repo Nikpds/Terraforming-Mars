@@ -26,10 +26,9 @@ namespace Terraforming.Api.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
-                    Firstname = table.Column<string>(nullable: true),
-                    Lastname = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
+                    Firstname = table.Column<string>(nullable: false),
+                    Lastname = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     ExternaLogin = table.Column<bool>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
@@ -54,7 +53,7 @@ namespace Terraforming.Api.Migrations
                     AwardsPlaced = table.Column<int>(nullable: false),
                     AwardsWon = table.Column<int>(nullable: false),
                     Milestones = table.Column<int>(nullable: false),
-                    Board = table.Column<string>(nullable: true)
+                    Board = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,24 +73,75 @@ namespace Terraforming.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Team",
+                name: "Invitations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    OwnerId = table.Column<string>(nullable: true),
+                    TeamId = table.Column<string>(nullable: true),
+                    TeamTitle = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    InivtationStatus = table.Column<int>(nullable: false),
+                    ActionDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invitations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invitations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Color = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Team", x => x.Id);
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Team_Users_UserId",
+                        name: "FK_Teams_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeamUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false),
+                    TeamId = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeamUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeamUsers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -105,8 +155,23 @@ namespace Terraforming.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_UserId",
-                table: "Team",
+                name: "IX_Invitations_UserId",
+                table: "Invitations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_UserId",
+                table: "Teams",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamUsers_TeamId",
+                table: "TeamUsers",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamUsers_UserId",
+                table: "TeamUsers",
                 column: "UserId");
         }
 
@@ -116,10 +181,16 @@ namespace Terraforming.Api.Migrations
                 name: "GameScore");
 
             migrationBuilder.DropTable(
-                name: "Team");
+                name: "Invitations");
+
+            migrationBuilder.DropTable(
+                name: "TeamUsers");
 
             migrationBuilder.DropTable(
                 name: "Game");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Users");

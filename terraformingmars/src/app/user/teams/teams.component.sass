@@ -1,0 +1,71 @@
+@import "../../../../node_modules/bulmaswatch/nuclear/_variables.scss"
+
+.notification
+    border-radius: 0
+.shrink
+    flex-shrink: 1!important
+.notification.is-hover:hover
+    border-left: 3px solid $blue
+    transition: border-left 200ms linear
+    cursor: pointer
+.active-not
+    border-left: 3px solid $blue
+.fa-around
+    display: inline-block
+    color: white
+    border-radius: 99px
+    box-shadow: 0px 0px 0px 2px #fff
+    padding: 0.3em 0.3em
+.team-icon
+    position: absolute
+    height: 40px
+    top: 0
+    left: 0
+    width: 100%
+
+.margin-top
+    margin-top: 15px
+hr
+    margin: .5rem 0
+.mb-0
+    margin-bottom: 0
+
+
+
+.left-search
+    background: transparent
+    color: white
+
+.input-search
+    color: white
+    background: transparent
+    border-radius: 2px!important
+    
+.input-search:focus 
+    animation: glow 800ms ease-out infinite alternate
+    outline: none
+
+.select:not(.is-multiple):not(.is-loading):hover::after
+    border-color: white!important
+.input::placeholder
+    color: grey
+
+.pointer-active
+    pointer-events: visible!important
+
+.dropdown-content
+    height: auto
+    max-height: 400px
+    overflow: auto
+    border-radius: 0px
+
+.slideInDown
+    animation-duration: 0.2s
+a.dropdown-item:hover
+    color: white!important
+
+.select select:focus
+    border-color: white
+    box-shadow: none
+.is-fullwidth
+    width: 100%

@@ -1,0 +1,73 @@
+<div class="notification" *ngIf="team">
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label has-text-left">Preview</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <i class="{{team.icon}} fa-2x" [ngStyle]="{'color': team.color}"></i>
+            </div>
+            <div class="level-item">
+              <p class="has-text-link">{{team.title}}</p>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label has-text-left">Title</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          <input class="input" [(ngModel)]="team.title" type="text">
+          <span class="icon is-small is-left">
+            <i class="fa fa-users"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label has-text-left">Color</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          <input class="input" type="color" name="favcolor" [(ngModel)]="team.color" [value]="team.color">
+          <span class="icon is-small is-left">
+            <i class="fa fa-paint-brush"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label has-text-left">Icon</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          <input class="input" [iconPicker]="team.icon" readonly [(ngModel)]="team.icon" [ipPlaceHolder]="'Choose an icon'"
+            [ipPosition]="'bottom'" [ipIconPack]="'fa'" (iconPickerSelect)="onIconPickerSelect($event)" />
+          <span class="icon is-small is-left">
+            <i class="fa fa-paint-brush"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="field is-clearfix">
+    <span class="buttons is-pulled-right">
+      <a class="button is-white" (click)="team = null">cancel</a>
+      <a class="button is-primary" (click)="saveTeam()">save</a>
+    </span>
+  </div>
+</div>

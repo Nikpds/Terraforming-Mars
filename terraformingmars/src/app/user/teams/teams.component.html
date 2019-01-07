@@ -1,0 +1,129 @@
+<div class="container">
+  <br>
+  <div class="columns is-paddingless is-multiline">
+    <div class="column is-12">
+      <div class="notification">
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              Joined Teams
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <a class="button is-small is-primary" (click)="createNewTeam()">Create Team</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="column  is-5">
+      <div class="notification is-hover" [ngClass]="{'active-not': selectedTeam?.id === item.id}" (click)="selectTeam(i)"
+        *ngFor="let item of teams;let i = index">
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <i class="{{item.icon}} fa-3x" [ngStyle]="{'color': item.color}"></i>
+            </div>
+            <div class="level-item">
+              <div>
+                <p class="has-text-link">{{item.title}}</p>
+                <small class="">Members: {{item.teamUsers.length}}</small>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <div class="has-text-right">
+                <p class="is-size-7">created: {{item.created | date :'dd/MM/yyyy'}}</p>
+                <p class="is-size-7">owner: {{item.owner.lastname}}</p>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="notification" *ngIf="teams.length === 0">
+        <nav class="level">
+          <div class="level-left shrink">
+            <div class="level-item">
+              <i class="fa fa-ban fa-3x" [ngStyle]="{'color': 'white'}"></i>
+            </div>
+            <div class="level-item shrink">
+              <div>
+                <p class="has-text-link has-text-justified">You don't have any teams created yet. Join a team by
+                  getting
+                  an invitation from a game master or request permissions to became a game master yourself.
+                </p>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="column  is-7">
+      <div class="notification" *ngIf="selectedTeam">
+        <div class="has-text-centered team-icon" [ngStyle]="{'background': selectedTeam.color}">
+          <i class="{{selectedTeam.icon}} fa-around fa-2x margin-top"></i>
+        </div>
+        <br>
+        <p class="margin-top has-text-link is-size-5">{{selectedTeam.title}}</p>
+        <p class="is-size-7">Owner: {{selectedTeam.owner.lastname}} {{selectedTeam.owner.firstname}}</p>
+        <br>
+        <nav class="level mb-0">
+          <div class="level-left">
+            <span>Members</span>
+          </div>
+          <div class="level-right">
+            <a class="level-item has-text-primary">
+              add member
+            </a>
+            <a class="level-item has-text-warning" (click)="editTeam();">
+              edit
+            </a>
+            <a class="level-item has-text-danger" (click)="deleteTeam()">
+              delete
+            </a>
+          </div>
+        </nav>
+        <hr class="has-background-black">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <div class="dropdown is-left is-fullwidth" [ngClass]="{'is-active':usersFound.length > 0}">
+              <div class="dropdown-trigger is-fullwidth ">
+                <div class="field has-addons">
+                  <div class="control has-icons-left is-expanded">
+                    <input class="input input-search" [ngClass]="{'left-search': usersFound.length == 0}" [(ngModel)]="searchField"
+                      placeholder="type email or nickname" (keyup)="searchUser()">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-search"></i>
+                    </span>                   
+                  </div>
+                </div>
+              </div>
+              <div class="dropdown-menu animated slideInDown" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <div *ngFor="let a of usersFound;let last = last">
+                    <a class="dropdown-item" (click)="checkIn(a)">
+                      {{a.lastname}}
+                    </a>
+                    <hr *ngIf="!last" class="dropdown-divider is-marginless">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="control">
+              <a class="button is-dark">
+               cancel
+              </a>
+            </div>
+          <div class="control">
+            <a class="button is-primary">
+              Send Invitation
+            </a>
+          </div>
+        </div>
+      </div>
+      <app-team-details [team]="newTeam" (actionPerfomed)="addOrUpdate($event)"></app-team-details>
+    </div>
+  </div>

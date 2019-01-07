@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Terraforming.Api.Models
 {
-    public class GameScore:Entity
+    public class GameScore : Entity
     {
         public string UserId { get; set; }
         public virtual User User { get; set; }

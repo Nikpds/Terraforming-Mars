@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Terraforming.Api.Database;
 
 namespace Terraforming.Api.Migrations
 {
     [DbContext(typeof(MsDataContext))]
-    partial class MsDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190102183618_update2")]
+    partial class update2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,6 @@ namespace Terraforming.Api.Migrations
 
                     b.Property<DateTime>("ActionDate");
 
-                    b.Property<string>("Comments");
-
                     b.Property<DateTime>("Created");
 
                     b.Property<int>("InivtationStatus");
@@ -104,19 +104,17 @@ namespace Terraforming.Api.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<DateTime>("Created");
-
                     b.Property<string>("Icon");
-
-                    b.Property<string>("OwnerId");
 
                     b.Property<string>("Title");
 
                     b.Property<DateTime>("Updated");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Teams");
                 });
@@ -161,8 +159,6 @@ namespace Terraforming.Api.Migrations
                     b.Property<string>("Lastname")
                         .IsRequired();
 
-                    b.Property<string>("Nickname");
-
                     b.Property<string>("PasswordHash");
 
                     b.Property<DateTime>("Updated");
@@ -200,9 +196,9 @@ namespace Terraforming.Api.Migrations
 
             modelBuilder.Entity("Terraforming.Api.Models.Team", b =>
                 {
-                    b.HasOne("Terraforming.Api.Models.User", "Owner")
+                    b.HasOne("Terraforming.Api.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Terraforming.Api.Models.TeamUsers", b =>

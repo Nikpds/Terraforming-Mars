@@ -30,6 +30,7 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "ng-pick-datetime": "^6.0.16",
+    "ngx-icon-picker": "0.0.8",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },

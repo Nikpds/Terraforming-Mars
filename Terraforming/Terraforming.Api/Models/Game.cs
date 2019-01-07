@@ -6,11 +6,11 @@ namespace Terraforming.Api.Models
     public class Game : Entity
     {
         public DateTime Date { get; set; }
-        public List<GameScore> GamePlayers { get; set; }
+        public ICollection<GameScore> GamePlayers { get; set; }
 
         public Game()
         {
-            GamePlayers = new List<GameScore>();
+            GamePlayers = new HashSet<GameScore>();
         }
     }
 }

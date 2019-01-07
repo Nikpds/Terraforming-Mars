@@ -7,6 +7,7 @@ namespace Terraforming.Api.Models
     {
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        public string Nickname { get; set; }
         public string Email { get; set; }
         [NotMapped]
         public string Password { get; set; }
@@ -15,13 +16,20 @@ namespace Terraforming.Api.Models
         public bool IsActive { get; set; }
         public bool EmailConfirmed { get; set; }
         public string VerificationToken { get; set; }
-        public List<Team> Teams { get; set; }
-        public List<GameScore> GameScores { get; set; }
+        public virtual ICollection<TeamUsers> TeamUsers { get; set; }
+        public virtual ICollection<GameScore> GameScores { get; set; }
+
+        [InverseProperty("User")]
+        public virtual ICollection<Invitation> Invitations { get; set; }
+        [InverseProperty("Owner")]
+        public virtual ICollection<Invitation> Invites { get; set; }
 
         public User()
         {
-            Teams = new List<Team>();
-            GameScores = new List<GameScore>();
+            TeamUsers = new HashSet<TeamUsers>();
+            GameScores = new HashSet<GameScore>();
+            Invitations = new HashSet<Invitation>();
+            Invites = new HashSet<Invitation>();
         }
     }
 }

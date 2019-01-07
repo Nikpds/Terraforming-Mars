@@ -1,279 +1,33 @@
 <section class="hero ">
     <div class="hero-body">
         <div class="container">
-            <div class="box">
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-256">
-                            <img src="../../assets/terraforming-base.jpg" alt="Placeholder image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <div class="content has-text-justified">
-                            <p><strong>Terraforming Mars (2016)</strong> <small>@Jacob Fryxelius</small></p>
-                            <nav class="level is-mobile">
-                                <div class="level-left">
-                                    <div class="level-item has-text-link">
-                                        <div class="">
-                                            <p>1-5 Players</p>
-                                            <small>Community: 1-4 - Best: 3</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>120 min</p>
-                                            <small>Playing time</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>Age 12+</p>
-                                            <small>Community:12+</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </nav>
-                            <p>
-                                Corporations are competing to transform Mars into a habitable planet by spending vast
-                                resources, and using innovative technology to raise temperature, create a breathable
-                                atmosphere, and make oceans of water. As terraforming progresses, more and more people
-                                will immigrate from Earth to live on the Red Planet.
-
-                                In Terraforming Mars, you control a corporation with a certain profile. Play project
-                                cards, build up production, place your cities and green areas on the map, and race for
-                                milestones and awards!
-                            </p>
+            <div class="columns is-multiline is-centered">
+                <div class="column is-5" *ngFor="let item of games">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img [src]="'../../assets/' + item.image" alt="Placeholder image">
+                            </figure>
                         </div>
-
-                    </div>
-                </article>
-            </div>
-
-        </div>
-    </div>
-</section>
-<section class="hero ">
-    <div class="hero-body">
-        <div class="container">
-            <div class="box">
-                <article class="media">
-                    <div class="media-content">
-                        <div class="content has-text-justified">
-                            <p><strong>Terraforming Mars: Hellas & Elysium (2017)</strong> <small>@Jacob Fryxelius</small></p>
-
-                            <nav class="level is-tablet">
-                                <div class="level-left">
-                                    <div class="level-item has-text-link">
-                                        <div class="">
-                                            <p>1-5 Players</p>
-                                            <small>Community: 1-4 - Best: 3</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>90–120 Min</p>
-                                            <small>Playing time</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>Age 12+</p>
-                                            <small>Community:12+</small>
-                                        </div>
-                                    </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">{{item.title}}</p>
+                                    <p class="subtitle is-6">{{item.creator}}</p>
                                 </div>
-                            </nav>
-                            <p>
-                                Terraforming Mars: Hellas & Elysium, the first expansion for Terraforming Mars,
-                                consists of a double-sided game board presenting two new areas of Mars: </p>
-                            <ul>
-                                <li>
-                                    Elysium takes players almost to the opposite side of Mars' equator, with vast
-                                    lowlands for oceans in the north and a dry, mineral-rich south.
-                                </li>
-                                <li>
-                                    Hellas, the southern wild, includes Mars' south pole and the enormous seven-hex
-                                    Hellas crater that just begs to become a giant lake.
-                                </li>
-                            </ul>
-
+                            </div>
+                            <div class="content has-text-justified">
+                                <nav class="level is-mobile">
+                                    <div class="level-item level-left has-text-link">Players: {{item.players}}</div>
+                                    <div class=" level-item has-text-link">Age: {{item.age}}</div>
+                                    <div class="level-item has-text-link level-right">Time: {{item.time}}</div>
+                                </nav>
+                                {{item.text}}
+                            </div>
                         </div>
-
                     </div>
-                    <div class="media-right">
-                        <figure class="image is-256">
-                            <img src="../../assets/elysium.jpg" alt="Placeholder image">
-                        </figure>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="hero ">
-    <div class="hero-body">
-        <div class="container">
-            <div class="box">
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-256">
-                            <img src="../../assets/venus.jpg" alt="Placeholder image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <div class="content has-text-justified">
-                            <p><strong>Terraforming Mars: Venus Next (2017)</strong> <small>@Jacob Fryxelius</small></p>
-
-                            <nav class="level is-tablet">
-                                <div class="level-left">
-                                    <div class="level-item has-text-link">
-                                        <div class="">
-                                            <p>1-5 Players</p>
-                                            <small>Community: 1-4 - Best: 3</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>90-120 min</p>
-                                            <small>Playing time</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>Age 12+</p>
-                                            <small>Community:12+</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </nav>
-                            <p>
-                                Terraforming Mars: Venus Next, the second expansion for the Terraforming Mars base
-                                game, has players building flying cities and making the atmosphere more hospitable on
-                                the deadly planet Venus.
-                                In Venus Next, the World Government chooses to also fund the terraforming of Venus.
-                                Around 50 project cards and 5 corporations are added, with a special focus on how to
-                                make Venus habitable. With the new floater resource, a new milestone, a new award, a
-                                new tag, and a new terraforming parameter, players are given more paths to victory and
-                                an even more varied play.
-                            </p>
-                        </div>
-
-                    </div>
-                </article>
-            </div>
-
-        </div>
-    </div>
-</section>
-<section class="hero ">
-    <div class="hero-body">
-        <div class="container">
-            <div class="box">
-                <article class="media">
-                    <div class="media-content">
-                        <div class="content has-text-justified">
-                            <p><strong>Terraforming Mars: Prelude (2018)</strong> <small>@Jacob Fryxelius</small></p>
-
-                            <nav class="level is-tablet">
-                                <div class="level-left">
-                                    <div class="level-item has-text-link">
-                                        <div class="">
-                                            <p>1-5 Players</p>
-                                            <small>Community: 1-4 - Best: 3</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>90–120 Min</p>
-                                            <small>Playing time</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>Age 12+</p>
-                                            <small>Community:12+</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </nav>
-                            <p>
-                                As the mega corporations are getting ready to start the terraforming process, you now
-                                have the chance to make those early choices that will come to define your corporation
-                                and set the course for the future history of Mars - this is the prelude to your
-                                greatest endeavors!
-                            </p>
-                            <p> In Terraforming Mars: Prelude, you get to choose from Prelude cards that jumpstart the
-                                terraforming process, or boost your corporation engine. There are also 5 new
-                                corporations, and 7 project cards that thematically fit the early stages of
-                                terraforming.
-                            </p>
-                        </div>
-
-                    </div>
-                    <div class="media-right">
-                        <figure class="image is-256">
-                            <img src="../../assets/prelude.jpg" alt="Placeholder image">
-                        </figure>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="hero ">
-    <div class="hero-body">
-        <div class="container">
-            <div class="box">
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-256">
-                            <img src="../../assets/colonies.jpg" alt="Placeholder image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <div class="content has-text-justified">
-                            <p><strong>Terraforming Mars: Colonies (2018)</strong> <small>@Jacob Fryxelius</small></p>
-
-                            <nav class="level is-tablet">
-                                <div class="level-left">
-                                    <div class="level-item has-text-link">
-                                        <div class="">
-                                            <p>1-5 Players</p>
-                                            <small>Community: 1-4 - Best: 3</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>120 min</p>
-                                            <small>Playing time</small>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-link  is-hidden-mobile">
-                                        <div class="">
-                                            <p>Age 12+</p>
-                                            <small>Community:12+</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </nav>
-                            <p>
-                                Our world has widened before us. Corporations expand their operations to all corners of
-                                the solar system in pursuit of minerals and resources. Most places are not suited for
-                                terraforming, but building colonies may greatly improve your income and your
-                                possibilities in achieving that higher goal — the terraforming of Mars. Send your trade
-                                fleet to distant moons! Colonize the clouds of Jupiter! And let your Earth assets
-                                propel you to success!
-                                Terraforming Mars: Colonies, an expansion for Terraforming Mars that can be played with
-                                only the base game or with any combination of expansions, lets you visit the outer
-                                solar system. It features colony tiles where you can build colonies and send your trade
-                                fleet. It also includes new cards and corporations.
-                            </p>
-                        </div>
-
-                    </div>
-                </article>
-            </div>
-
+                </div>
+            </div>      
         </div>
     </div>
 </section>

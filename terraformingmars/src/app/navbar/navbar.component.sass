@@ -1,32 +1,17 @@
 .logo
     font-family: monospace
-.hero
-    // background-image: url('../../assets/stars.jpg')
-    // background-position: center
-    // background-repeat: no-repeat
-    // background-size: cover
-    position: relative
 
 .hero-img
     bottom: 30px
     left: 0
-    top: -450px
-    position: fixed
+    top: -550px
+    position: absolute
     width: 100%
+
 .mars-image
     margin: 0 auto
     display: block
     height: 800px
-
-.is-overlay-ctm
-    bottom: 0
-    left: 0
-    position: absolute
-    right: 0
-    width: 100%
-    height: 100%
-    top: 0
-    background: rgba(0, 0, 0, 0.20)
 
 @media screen and (max-width: 760px) 
     .line-1 
@@ -37,4 +22,14 @@
         top: -150px!important
 
 .hero-body
-    padding-bottom: 6rem!important
+    padding-bottom: 7rem!important
+    padding-top: 7rem!important
+
+.bck
+    background-color: rgba(0, 0, 0, 0.54)!important
+    transition: background-color 500ms linear
+.empty-bck
+    background-color: rgba(0, 0, 0, 0)!important
+    transition: background-color 500ms linear
+.hero-foot
+    position: relative

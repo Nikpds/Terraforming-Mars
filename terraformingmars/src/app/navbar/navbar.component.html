@@ -1,26 +1,21 @@
-<section class="hero is-medium">
-  <div class="is-overlay-ctm"></div>
+<section class="is-medium">
   <!-- Hero head: will stick at the top -->
   <div class="hero-head">
-    <nav class="navbar is-fixed-top is-mobile">
+    <nav class="navbar is-transparent is-fixed-top {{ bck ? 'bck' : 'empty-bck'}}">
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item" [routerLink]="['/home']" >
+          <a class="navbar-item" [routerLink]="['/home']">
             <img class="" src="../assets/mars_planet_PNG39.png">&nbsp;&nbsp;
-            <i class="has-text-weight-bold is-size-5 logo">Terraforming Mars</i> </a>
-          <a role="button" class="navbar-burger burger" (click)="openMenu = !openMenu" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <i class="has-text-weight-bold is-size-5 logo has-text-link">Home Planet</i> </a>
+          <a role="button" class="navbar-burger burger" (click)="openMenu = !openMenu" aria-label="menu" aria-expanded="false"
+            data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
-        <div class="navbar-menu" [ngClass]="{'is-active': openMenu}"> 
+        <div class="navbar-menu" [ngClass]="{'is-active': openMenu}">
           <div class="navbar-end">
-            <div class="navbar-item" *ngIf="user">
-              <a class="button is-link is-outlined" [routerLink]="['/game','new']" (click)="openMenu = false">
-                New Game
-              </a>
-            </div>
             <div class="navbar-item" *ngIf="user">
               <a class="button is-warning is-outlined" (click)="logout();openMenu = false">
                 Logout
@@ -36,6 +31,34 @@
                 Register
               </a>
             </div>
+            <nav class="navbar" role="navigation" aria-label="dropdown navigation" *ngIf="user">
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                  <i class="fa fa-user-circle-o fa-lg has-text-link"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                  <a class="navbar-item">
+                    Profile
+                  </a>
+                  <a class="navbar-item">
+                    Games
+                  </a>
+                  <a class="navbar-item" [routerLink]="['/game','new']" (click)="openMenu = false">
+                    Create Game
+                  </a>
+                  <a class="navbar-item" [routerLink]="['/teams']" (click)="openMenu = false">
+                    Teams
+                  </a>
+                  <a class="navbar-item">
+                    Create Team
+                  </a>
+                  <hr class="navbar-divider">
+                  <div class="navbar-item">
+                    Version 0.1.0
+                  </div>
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
       </div>
@@ -48,23 +71,23 @@
       <img class="mars-image spinplanet" src="../../assets/mars-planet.webp" alt="">
     </div>
     <div class="container has-text-centered">
-      <br>
-      <p class="has-text-link title is-1 line-1 anim-typewriter is-unselectable">Terraforming Mars </p>
+      <p class="has-text-link  line-1 anim-typewriter is-unselectable">Terraforming Mars </p>
     </div>
   </div>
 
   <!-- Hero footer: will stick at the bottom -->
   <div class="hero-foot">
-    <nav class="tabs">
-      <div class="container">
+    <div class="container">
+      <nav class="tabs is-centered">
         <ul>
           <li class="{{currentUrl ==  'home' ?  'is-active': ''}}"><a [routerLink]="['/home']">News</a></li>
           <li class="{{currentUrl ==  'ratings' ?  'is-active': ''}}"><a [routerLink]="['/ratings']" *ngIf="user">Ratings</a></li>
           <li class="{{currentUrl ==  'games' ?  'is-active': ''}}"><a [routerLink]="['/games']" *ngIf="user">Games</a></li>
           <li class="{{currentUrl ==  'game' ?  'is-active': ''}}"><a [routerLink]="['/game','new']" *ngIf="user">New
-              Game</a></li>
+              Game</a>
+          </li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </div>
 </section>

@@ -2,23 +2,38 @@
 @import "../node_modules/font-awesome/css/font-awesome.min.css"
 @import "../node_modules/ng-pick-datetime/assets/style/picker.min.css"
 
-
-@import "../node_modules/bulmaswatch/nuclear/_variables.scss"
-
-
+@import "./_variables.sass"
 @import "../node_modules/bulma/bulma.sass"
 @import "../node_modules/bulmaswatch/nuclear/_overrides.scss"
 @import "../node_modules/bulma-extensions/bulma-pricingtable/dist/css/bulma-pricingtable.sass"
-@import "../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass"
 
 @import "./style.line.css"
+
 body
     height: 100%
 html
     height: 100%
-    overflow: auto
-    
+    overflow: auto   
    
 .has-background-transparent
     background-color: rgba(255, 255, 255, 0)!important
+
+.icon-search input
+    @extend .input 
+    font-size: 1rem!important
+.icon-search
+    padding: 0!important
+
+.btn
+    @extend  .button
+.btn-default
+    @extend  .is-primary
+
+.icon-picker
+    border-radius: 4px
+.card
+    border: none
+.is-size-small
+    font-size: 10px!important
+
 // Bulma Extensions

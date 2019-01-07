@@ -17,6 +17,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { RegisterComponent } from './register/register.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { UserModule } from './user/user.module';
 
 export const MY_NATIVE_FORMATS = {
   fullPickerInput: { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }
@@ -38,8 +39,8 @@ export const MY_NATIVE_FORMATS = {
     SharedModule,
     AppRoutingModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
-
+    OwlNativeDateTimeModule,
+    UserModule
   ],
   providers: [
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS },

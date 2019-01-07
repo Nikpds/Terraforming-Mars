@@ -1,12 +1,13 @@
 .line-1 {
     position: relative;
     top: 50%;
-    width: 24em;
+    width: 20em;
     margin: 0 auto;
     text-shadow: 3px 2px 9px #01ffff;
     border-right: 1px solid #01ffff;
-    font-size: 180%;
     text-align: center;
+    font-size: 48px;
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     transform: translateY(-50%);
@@ -15,7 +16,7 @@
 /* Animation */
 
 .anim-typewriter {
-    animation: typewriter 3s steps(19) 0.5s 1 normal both, blinkTextCursor 700ms steps(19) infinite normal;
+    animation: typewriter 3s steps(20) 0.5s 1 normal both, blinkTextCursor 700ms steps(20) infinite normal;
 }
 
 @keyframes typewriter {
@@ -23,7 +24,7 @@
         width: 0;
     }
     to {
-        width: 12em;
+        width: 8.5em;
     }
 }
 
