@@ -40,7 +40,10 @@
                   <a class="navbar-item">
                     Profile
                   </a>
-                  <a class="navbar-item">
+                  <a class="navbar-item" [routerLink]="['/users']" (click)="openMenu = false">
+                    Users
+                  </a>
+                  <a class="navbar-item" >
                     Games
                   </a>
                   <a class="navbar-item" [routerLink]="['/game','new']" (click)="openMenu = false">
@@ -48,9 +51,6 @@
                   </a>
                   <a class="navbar-item" [routerLink]="['/teams']" (click)="openMenu = false">
                     Teams
-                  </a>
-                  <a class="navbar-item">
-                    Create Team
                   </a>
                   <hr class="navbar-divider">
                   <div class="navbar-item">
@@ -76,7 +76,7 @@
   </div>
 
   <!-- Hero footer: will stick at the bottom -->
-  <div class="hero-foot">
+  <div class="hero-foot" *ngIf="currentUrl != 'register' && currentUrl != 'login'">
     <div class="container">
       <nav class="tabs is-centered">
         <ul>

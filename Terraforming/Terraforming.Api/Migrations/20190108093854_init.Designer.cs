@@ -10,7 +10,7 @@ using Terraforming.Api.Database;
 namespace Terraforming.Api.Migrations
 {
     [DbContext(typeof(MsDataContext))]
-    [Migration("20190102183435_init")]
+    [Migration("20190108093854_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,8 @@ namespace Terraforming.Api.Migrations
 
                     b.Property<DateTime>("ActionDate");
 
+                    b.Property<string>("Comments");
+
                     b.Property<DateTime>("Created");
 
                     b.Property<int>("InivtationStatus");
@@ -84,9 +86,15 @@ namespace Terraforming.Api.Migrations
 
                     b.Property<string>("TeamTitle");
 
+                    b.Property<DateTime>("Updated");
+
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("TeamId");
 
                     b.HasIndex("UserId");
 
@@ -100,17 +108,19 @@ namespace Terraforming.Api.Migrations
 
                     b.Property<string>("Color");
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Icon");
+
+                    b.Property<string>("OwnerId");
 
                     b.Property<string>("Title");
 
                     b.Property<DateTime>("Updated");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Teams");
                 });
@@ -155,6 +165,8 @@ namespace Terraforming.Api.Migrations
                     b.Property<string>("Lastname")
                         .IsRequired();
 
+                    b.Property<string>("Nickname");
+
                     b.Property<string>("PasswordHash");
 
                     b.Property<DateTime>("Updated");
@@ -179,29 +191,37 @@ namespace Terraforming.Api.Migrations
 
             modelBuilder.Entity("Terraforming.Api.Models.Invitation", b =>
                 {
+                    b.HasOne("Terraforming.Api.Models.User", "Owner")
+                        .WithMany("Invites")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Terraforming.Api.Models.Team")
+                        .WithMany("Invations")
+                        .HasForeignKey("TeamId");
+
                     b.HasOne("Terraforming.Api.Models.User", "User")
                         .WithMany("Invitations")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Terraforming.Api.Models.Team", b =>
                 {
-                    b.HasOne("Terraforming.Api.Models.User", "User")
+                    b.HasOne("Terraforming.Api.Models.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId");
                 });
 
             modelBuilder.Entity("Terraforming.Api.Models.TeamUsers", b =>
                 {
                     b.HasOne("Terraforming.Api.Models.Team", "Team")
                         .WithMany("TeamUsers")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TeamId");
 
                     b.HasOne("Terraforming.Api.Models.User", "User")
                         .WithMany("TeamUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

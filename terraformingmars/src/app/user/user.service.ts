@@ -36,6 +36,11 @@ export class UserService {
       .pipe(catchError(this.errorHandler));
   }
 
+  sendInvitation(teamId: string, userToId: string, comments: string) {
+    return this.http.post<Boolean>(`${this.url}/invitation/invites/${teamId}/${userToId}/${comments}`, {})
+      .pipe(catchError(this.errorHandler));
+  }
+
 
   errorHandler(error: HttpErrorResponse) {
     return observableThrowError(error || 'Server Error');

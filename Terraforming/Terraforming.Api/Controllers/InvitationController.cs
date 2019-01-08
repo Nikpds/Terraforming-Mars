@@ -35,16 +35,24 @@ namespace Terraforming.Api.Controllers
             }
         }
 
-        [HttpPost("invites/{userTo}/{teamId}")]
-        public IActionResult SendInvite(string userTo, string teamId)
+        [HttpPost("invites/{userTo}/{teamId}/{comments}")]
+        public IActionResult SendInvite(string userTo, string teamId, string comments)
         {
             try
             {
+                var team = _db.Teams.Find(teamId);
+                if (team == null)
+                {
+                    return BadRequest("Team wasn't found!");
+                }
                 var invite = new Invitation();
                 invite.InivtationStatus = InvitationStatus.Pending;
                 invite.OwnerId = User.GetUserId();
                 invite.TeamId = teamId;
                 invite.UserId = userTo;
+                invite.Comments = comments;
+                invite.TeamTitle = team.Title;
+                invite.Updated = DateTime.UtcNow;
                 invite.Created = DateTime.UtcNow;
                 _db.Invitations.Add(invite);
                 _db.SaveChanges();

@@ -3,6 +3,7 @@ import { User } from '../model';
 import { MainService } from '../main.service';
 import { LoaderService } from '../shared/loader.service';
 import { Router } from '@angular/router';
+import { ToastrService } from '../toastr.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
   error = false;
   constructor(
     private service: MainService,
+    private toastr: ToastrService,
     private loader: LoaderService,
     private route: Router) { }
 
@@ -30,6 +32,7 @@ export class RegisterComponent implements OnInit {
     this.loader.show();
     this.service.registerUser(this.user).subscribe(res => {
       this.loader.hide();
+      this.toastr.success();
       this.route.navigate(['/login']);
     }, error => {
       this.loader.hide();

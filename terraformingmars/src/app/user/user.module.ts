@@ -6,13 +6,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { TeamDetailsComponent } from './team-details/team-details.component';
 
 import { UserService } from './user.service';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
     TeamsComponent,
     GamesComponent,
     ProfileComponent,
-    TeamDetailsComponent
+    TeamDetailsComponent,
+    UsersComponent
   ],
   imports: [
     SharedModule

@@ -42,7 +42,7 @@ namespace Terraforming.Api.Controllers
             try
             {
                 var f = field.ToLowerInvariant();
-                var q = from user in _db.Users.AsNoTracking().Where(x => x.Email.ToLowerInvariant().Contains(f))
+                var q = from user in _db.Users.AsNoTracking().Where(x => x.Email.ToLowerInvariant().Contains(f) || x.Nickname.ToLowerInvariant().Contains(f))
                              select new UserSearchView()
                              {
                                  Email = user.Email,
@@ -64,8 +64,7 @@ namespace Terraforming.Api.Controllers
         public IActionResult GetTeamMates(string teamId)
         {
             try
-            {
-                //check for email duplicates
+            {               
                 var result = _db.Users.Where(x => x.TeamUsers.Any(a => a.TeamId == teamId)).ToList();
                 result.ForEach(x => x.PasswordHash = null);
                 return Ok(result);

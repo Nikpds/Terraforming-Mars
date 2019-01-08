@@ -30,6 +30,8 @@
               "src/styles.sass"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/toastr/build/toastr.min.js"
             ]
           },
           "configurations": {

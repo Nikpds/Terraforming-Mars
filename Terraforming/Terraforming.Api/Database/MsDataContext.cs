@@ -13,6 +13,7 @@ namespace Terraforming.Api.Database
         public DbSet<Game> Game { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamUsers> TeamsUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,7 +30,8 @@ namespace Terraforming.Api.Database
                      .HasForeignKey(k => k.OwnerId)
                      .OnDelete(DeleteBehavior.Restrict);
 
-
+            var team = modelBuilder.Entity<Team>();
+            team.HasKey(x => x.Id);
             var user = modelBuilder.Entity<User>();
             user.HasKey(x => x.Id);
             user.Property(p => p.Firstname).IsRequired();
@@ -44,11 +46,11 @@ namespace Terraforming.Api.Database
                .HasForeignKey(x => x.OwnerId)
                .OnDelete(DeleteBehavior.Restrict);
 
-            var teamUser = modelBuilder.Entity<TeamUsers>();
-            teamUser.HasOne(x => x.User).WithMany(w => w.TeamUsers)
-                .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.Cascade);
-            teamUser.HasOne(x => x.Team).WithMany(w => w.TeamUsers)
-                .HasForeignKey(f => f.TeamId).OnDelete(DeleteBehavior.Cascade);
+            //var teamUser = modelBuilder.Entity<TeamUsers>();
+            //teamUser.HasOne(x => x.User).WithMany(w => w.TeamUsers)
+            //    .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.Cascade);
+            //teamUser.HasOne(x => x.Team).WithMany(w => w.TeamUsers)
+            //    .HasForeignKey(f => f.TeamId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

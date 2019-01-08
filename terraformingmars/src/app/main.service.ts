@@ -19,7 +19,7 @@ export class MainService {
     return this.http.post<User>(`${this.url}/auth`, user)
       .pipe(catchError(this.errorHandler));
   }
-
+  // not used
   getPlayers() {
     return this.http.get<Array<User>>(`${this.url}/user`)
       .pipe(catchError(this.errorHandler));

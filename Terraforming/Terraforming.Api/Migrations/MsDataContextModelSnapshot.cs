@@ -92,6 +92,8 @@ namespace Terraforming.Api.Migrations
 
                     b.HasIndex("OwnerId");
 
+                    b.HasIndex("TeamId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Invitations");
@@ -192,6 +194,10 @@ namespace Terraforming.Api.Migrations
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Terraforming.Api.Models.Team")
+                        .WithMany("Invations")
+                        .HasForeignKey("TeamId");
+
                     b.HasOne("Terraforming.Api.Models.User", "User")
                         .WithMany("Invitations")
                         .HasForeignKey("UserId")
@@ -209,13 +215,11 @@ namespace Terraforming.Api.Migrations
                 {
                     b.HasOne("Terraforming.Api.Models.Team", "Team")
                         .WithMany("TeamUsers")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TeamId");
 
                     b.HasOne("Terraforming.Api.Models.User", "User")
                         .WithMany("TeamUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

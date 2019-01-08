@@ -28,6 +28,7 @@ namespace Terraforming.Api.Migrations
                     Updated = table.Column<DateTime>(nullable: false),
                     Firstname = table.Column<string>(nullable: false),
                     Lastname = table.Column<string>(nullable: false),
+                    Nickname = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     ExternaLogin = table.Column<bool>(nullable: false),
@@ -73,30 +74,6 @@ namespace Terraforming.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invitations",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    OwnerId = table.Column<string>(nullable: true),
-                    TeamId = table.Column<string>(nullable: true),
-                    TeamTitle = table.Column<string>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false),
-                    InivtationStatus = table.Column<int>(nullable: false),
-                    ActionDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Invitations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Invitations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
@@ -105,13 +82,52 @@ namespace Terraforming.Api.Migrations
                     Title = table.Column<string>(nullable: true),
                     Color = table.Column<string>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    OwnerId = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Users_UserId",
+                        name: "FK_Teams_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invitations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    OwnerId = table.Column<string>(nullable: true),
+                    TeamId = table.Column<string>(nullable: true),
+                    TeamTitle = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    InivtationStatus = table.Column<int>(nullable: false),
+                    ActionDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invitations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invitations_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invitations_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invitations_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -135,13 +151,13 @@ namespace Terraforming.Api.Migrations
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TeamUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -155,14 +171,24 @@ namespace Terraforming.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invitations_OwnerId",
+                table: "Invitations",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitations_TeamId",
+                table: "Invitations",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Invitations_UserId",
                 table: "Invitations",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_UserId",
+                name: "IX_Teams_OwnerId",
                 table: "Teams",
-                column: "UserId");
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamUsers_TeamId",

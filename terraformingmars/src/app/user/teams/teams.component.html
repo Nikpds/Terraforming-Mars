@@ -50,9 +50,8 @@
             </div>
             <div class="level-item shrink">
               <div>
-                <p class="has-text-link has-text-justified">You don't have any teams created yet. Join a team by
-                  getting
-                  an invitation from a game master or request permissions to became a game master yourself.
+                <p class="has-text-link has-text-justified">You don't have created any teams yet. Join a team by
+                  getting an invitation from a game master or request permissions to became a game master yourself.
                 </p>
               </div>
             </div>
@@ -67,26 +66,23 @@
         </div>
         <br>
         <p class="margin-top has-text-link is-size-5">{{selectedTeam.title}}</p>
-        <p class="is-size-7">Owner: {{selectedTeam.owner.lastname}} {{selectedTeam.owner.firstname}}</p>
-        <br>
-        <nav class="level mb-0">
+        <nav class="level ">
           <div class="level-left">
-            <span>Members</span>
+            <p class="is-size-7">Owner: {{selectedTeam.owner.lastname}} {{selectedTeam.owner.firstname}}</p>
           </div>
           <div class="level-right">
-            <a class="level-item has-text-primary">
+            <a class="level-item has-text-primary" (click)="showAddMember = true">
               add member
             </a>
-            <a class="level-item has-text-warning" (click)="editTeam();">
+            <a class="level-item has-text-link" (click)="editTeam();">
               edit
             </a>
-            <a class="level-item has-text-danger" (click)="deleteTeam()">
+            <a class="level-item has-text-link" (click)="deleteTeam()">
               delete
             </a>
           </div>
         </nav>
-        <hr class="has-background-black">
-        <div class="field has-addons">
+        <div class="field has-addons" *ngIf="showAddMember">
           <div class="control is-expanded">
             <div class="dropdown is-left is-fullwidth" [ngClass]="{'is-active':usersFound.length > 0}">
               <div class="dropdown-trigger is-fullwidth ">
@@ -96,15 +92,15 @@
                       placeholder="type email or nickname" (keyup)="searchUser()">
                     <span class="icon is-small is-left">
                       <i class="fa fa-search"></i>
-                    </span>                   
+                    </span>
                   </div>
                 </div>
               </div>
-              <div class="dropdown-menu animated slideInDown" id="dropdown-menu" role="menu">
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" *ngIf="focused">
                 <div class="dropdown-content">
                   <div *ngFor="let a of usersFound;let last = last">
-                    <a class="dropdown-item" (click)="checkIn(a)">
-                      {{a.lastname}}
+                    <a class="dropdown-item" (click)="selectPlayerForInvite(a)">
+                      {{a.nickname}} - {{a.email}}
                     </a>
                     <hr *ngIf="!last" class="dropdown-divider is-marginless">
                   </div>
@@ -113,16 +109,22 @@
             </div>
           </div>
           <div class="control">
-              <a class="button is-dark">
-               cancel
-              </a>
-            </div>
+            <a class="button is-dark" (click)="closeAddMember()">
+              cancel
+            </a>
+          </div>
           <div class="control">
-            <a class="button is-primary">
+            <a class="button is-primary" (click)="sendInvitation()">
               Send Invitation
             </a>
           </div>
         </div>
+        <div class="field" *ngIf="showAddMember">
+          <div class="control">
+            <textarea class="textarea" [(ngModel)]="comments" placeholder="Hi wanna join my team?"></textarea>
+          </div>
+        </div>
+        
       </div>
       <app-team-details [team]="newTeam" (actionPerfomed)="addOrUpdate($event)"></app-team-details>
     </div>

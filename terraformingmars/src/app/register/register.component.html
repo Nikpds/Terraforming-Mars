@@ -20,20 +20,26 @@
           </div>
           <div class="field">
             <div class="control">
+              <input class="input is-link tran-input" [(ngModel)]="user.nickname" type="text" name="nickname"
+                placeholder="Nickname">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
               <input class="input is-link tran-input" [(ngModel)]="user.email" autocomplete=on type="email" name="email"
                 placeholder="Email">
             </div>
           </div>
           <div class="field">
             <div class="control">
-              <input class="input is-link tran-input" [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="user.password" autocomplete=on type="password" name="password"
-                placeholder="Password">
+              <input class="input is-link tran-input" [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="user.password"
+               type="password" name="password" placeholder="Password">
             </div>
           </div>
           <div class="field">
             <div class="control">
-              <input class="input is-link tran-input"  [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="verifyPassword" autocomplete=on type="password" name="password"
-                placeholder="Confirm Pssword">
+              <input class="input is-link tran-input" [ngClass]="error ? 'is-danger' : ''" [(ngModel)]="verifyPassword"
+               type="password" name="password" placeholder="Confirm Pssword">
             </div>
           </div>
           <br><br>

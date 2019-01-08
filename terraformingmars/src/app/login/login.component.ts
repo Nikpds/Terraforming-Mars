@@ -4,6 +4,7 @@ import { MainService } from '../main.service';
 import { AuthService } from '../auth.service';
 import { LoaderService } from '../shared/loader.service';
 import { Router } from '@angular/router';
+import { ToastrService } from '../toastr.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   password: string;
 
   constructor(
-    private service: MainService,
+    private toastr: ToastrService,
     private auth: AuthService,
     private loader: LoaderService,
     private route: Router) { }
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.username, this.password).subscribe(res => {
       this.loader.hide();
       if (res) {
+        this.toastr.success();
         this.username = null;
         this.password = null;
         this.route.navigate(['/home']);

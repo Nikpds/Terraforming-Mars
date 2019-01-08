@@ -12,9 +12,14 @@ import { UserService } from '../user.service';
 export class TeamsComponent implements OnInit {
   teams = new Array<Team>();
   selectedTeam: Team;
+  selectedUser: string;
   newTeam: Team;
   searchField: string;
+  showAddMember = false;
+  comments: string;
   usersFound = new Array<UserSearchView>();
+  usersResult = new Array<UserSearchView>();
+  focused = false;
   constructor(
     private loader: LoaderService,
     private toastr: ToastrService,
@@ -47,30 +52,78 @@ export class TeamsComponent implements OnInit {
   }
 
   selectTeam(i: number) {
+    this.closeAddMember();
     this.newTeam = null;
     this.selectedTeam = this.teams[i];
   }
 
   searchUser() {
+    if (this.searchField.length === 0) {
+      this.focused = false;
+      this.usersFound = [];
+      return;
+    }
     if (this.searchField.length < 4) { return; }
     if (this.searchField.length === 4) {
       this.service.searchPlayersForInvitation(this.searchField).subscribe(res => {
         console.log(res);
+        this.focused = true;
         this.usersFound = res;
+        this.usersResult = res;
       }, error => {
 
       });
     } else {
-      this.usersFound = this.usersFound.filter(x => x.nickname === this.searchField || x.email === this.searchField);
+      this.focused = true;
+      this.searchField = this.searchField.toLocaleLowerCase();
+      this.usersFound = this.usersResult.filter(x => x.nickname.toLocaleLowerCase().includes(this.searchField) ||
+        x.email.toLocaleLowerCase().includes(this.searchField));
     }
   }
 
+  selectPlayerForInvite(a: UserSearchView) {
+    this.searchField = a.nickname;
+    this.selectedUser = a.id;
+    this.focused = false;
+  }
+
+  sendInvitation() {
+    // this.toastr.confirm('Send the invitation ?');
+    this.loader.show();
+    this.focused = false;
+    this.service.sendInvitation(this.selectedUser, this.selectedTeam.id, this.comments).subscribe(res => {
+      console.log(res);
+      this.toastr.success('The invitation was sent');
+      this.loader.hide();
+      this.closeAddMember();
+    }, error => {
+      this.loader.hide();
+      this.closeAddMember();
+      this.toastr.success(error);
+    });
+  }
+
+  confirmInvitation() {
+    this.loader.show();
+    this.focused = false;
+    this.service.sendInvitation(this.selectedUser, this.selectedTeam.id, this.comments).subscribe(res => {
+      console.log(res);
+      this.toastr.closeAll();
+      this.loader.hide();
+    }, error => {
+      this.loader.hide();
+      this.toastr.closeAll();
+    });
+  }
+
   createNewTeam() {
+    this.closeAddMember();
     this.selectedTeam = null;
     this.newTeam = new Team();
     this.newTeam.icon = 'fa fa-check';
     this.newTeam.title = 'My Awsome Team';
     this.newTeam.color = '#e66465';
+    this.closeAddMember();
   }
 
   editTeam() {
@@ -93,5 +146,14 @@ export class TeamsComponent implements OnInit {
     }, error => {
       this.loader.hide();
     });
+  }
+
+  closeAddMember() {
+    this.selectedUser = null;
+    this.searchField = null;
+    this.showAddMember = false;
+    this.usersFound = new Array<UserSearchView>();
+    this.usersResult = new Array<UserSearchView>();
+    this.focused = false;
   }
 }

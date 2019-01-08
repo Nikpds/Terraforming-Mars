@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { TeamsComponent } from './user/teams/teams.component';
 import { GamesComponent } from './user/games/games.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { UsersComponent } from './user/users/users.component';
 import { TeamDetailsComponent } from './user/team-details/team-details.component';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'login', component: ProfileComponent },
   { path: 'register', component: GamesComponent },
   { path: 'games', component: GamesListComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'ratings', component: RatingsComponent, canActivate: [AuthGuard] },
   { path: 'game/:id', component: GamesDetailsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

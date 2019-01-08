@@ -111,9 +111,24 @@ namespace Terraforming.Api.Controllers
         {
             try
             {
-                var result = _db.Teams.Include(i => i.Owner).Where(x => x.OwnerId == User.GetUserId()).ToList();
+                var result = _db.Teams.Include(t => t.TeamUsers).ThenInclude(u => u.User).Include(i => i.Owner).Where(x => x.OwnerId == User.GetUserId()).ToList();
 
                 return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+        }
+
+        [HttpGet("members/pending/invites/{id}")]
+        public IActionResult GetMembersAndInvites(string id)
+        {
+            try
+            {
+                var members = _db.TeamsUsers.Include(x => x.User).Where(x => x.TeamId == id).Select(x => x.User).ToList();
+                var invitations = _db.Invitations.Include(x => x.User).Where(x => x.TeamId == id && x.InivtationStatus == InvitationStatus.Pending).Select(x => x.User).ToList();
+                return Ok();
             }
             catch (Exception exc)
             {

@@ -27,13 +27,19 @@ namespace Terraforming.Api.Controllers
             try
             {
                 //check for email duplicates
-                var exists = _db.Users.Where(x => x.Email == user.Email).FirstOrDefault();
-                if (exists != null)
+                var emailExists = _db.Users.FirstOrDefault(x => x.Email == user.Email);
+                var usernameExists = _db.Users.FirstOrDefault(x => x.Nickname == user.Nickname);
+                if (emailExists != null)
                 {
                     return BadRequest("Email already exists");
                 }
+                if (usernameExists != null)
+                {
+                    return BadRequest("Username already exists");
+                }
                 //insert new user
                 user.Email = user.Email.ToLower();
+                user.IsActive = false;
                 user.EmailConfirmed = false;
                 user.PasswordHash = AuthManager.HashPassword(user.Password);
                 user.VerificationToken = string.Empty;
@@ -60,6 +66,10 @@ namespace Terraforming.Api.Controllers
                     var user = _db.Users.Where(x => x.Email == model.Username).FirstOrDefault();
                     if (user != null)
                     {
+                        if (!user.IsActive)
+                        {
+                            return BadRequest("Your Account is inactive. Contanct with the administrator for activation");
+                        }
                         if (AuthManager.VerifyHashedPassword(user.PasswordHash, model.Password))
                         {
                             var userToken = _auth.CreateToken(user);
@@ -67,58 +77,59 @@ namespace Terraforming.Api.Controllers
                         }
                         else
                         {
-                            return BadRequest("Λάθος όνομα χρήστη ή κωδικός");
+                            return BadRequest("Wrong Password or Username");
                         }
                     }
                     else
                     {
-                        return BadRequest("Λάθος όνομα χρήστη ή κωδικός");
+                        return BadRequest("Wrong Password or Username");
                     }
                 }
                 else
                 {
-                    return BadRequest("Λάθος όνομα χρήστη ή κωδικός");
+                    return BadRequest("Wrong Password or Username");
                 }
 
             }
             catch (Exception exc)
             {
-                return BadRequest("Σφάλμα στην επιβεβαίωση στοιχείων");
+                return BadRequest("Error while proccessing the data");
             }
         }
 
         [HttpPost("external")]
         public IActionResult GoogleOrFacebook([FromBody]User user)
         {
-            try
-            {
-                //check for email duplicates
-                var exists = _db.Users.Where(x => x.Email.ToLower() == user.Email.ToLower()).FirstOrDefault();
+            return Ok();
+            //try
+            //{
+            //    //check for email duplicates
+            //    var exists = _db.Users.Where(x => x.Email.ToLower() == user.Email.ToLower()).FirstOrDefault();
 
-                if (exists == null)
-                {
-                    user.Email = user.Email.ToLower();
-                    user.EmailConfirmed = true;
-                    user.ExternaLogin = true;
-                    user.Updated = DateTime.UtcNow;
-                    user.IsActive = true;
-                    user.PasswordHash = string.Empty;
-                    user.VerificationToken = string.Empty;
-                    var result = _db.Users.Add(user);
-                    _db.SaveChanges();
-                    var userToken = _auth.CreateToken(result.Entity);
-                    return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
-                }
-                else
-                {
-                    var userToken = _auth.CreateToken(exists);
-                    return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
-                }
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(exc.Message);
-            }
+            //    if (exists == null)
+            //    {
+            //        user.Email = user.Email.ToLower();
+            //        user.EmailConfirmed = true;
+            //        user.ExternaLogin = true;
+            //        user.Updated = DateTime.UtcNow;
+            //        user.IsActive = true;
+            //        user.PasswordHash = string.Empty;
+            //        user.VerificationToken = string.Empty;
+            //        var result = _db.Users.Add(user);
+            //        _db.SaveChanges();
+            //        var userToken = _auth.CreateToken(result.Entity);
+            //        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+            //    }
+            //    else
+            //    {
+            //        var userToken = _auth.CreateToken(exists);
+            //        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+            //    }
+            //}
+            //catch (Exception exc)
+            //{
+            //    return BadRequest(exc.Message);
+            //}
         }
     }
 }
