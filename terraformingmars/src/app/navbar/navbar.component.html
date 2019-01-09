@@ -37,7 +37,7 @@
                   <i class="fa fa-user-circle-o fa-lg has-text-link"></i>
                 </a>
                 <div class="navbar-dropdown is-right">
-                  <a class="navbar-item">
+                  <a class="navbar-item" [routerLink]="['/profile']">
                     Profile
                   </a>
                   <a class="navbar-item" [routerLink]="['/users']" (click)="openMenu = false">
@@ -78,9 +78,9 @@
   <!-- Hero footer: will stick at the bottom -->
   <div class="hero-foot" *ngIf="currentUrl != 'register' && currentUrl != 'login'">
     <div class="container">
-      <nav class="tabs is-centered">
+      <nav class="tabs">
         <ul>
-          <li class="{{currentUrl ==  'home' ?  'is-active': ''}}"><a [routerLink]="['/home']">News</a></li>
+          <li class="{{currentUrl ==  'home' ?  'is-active': ''}}"><a [routerLink]="['/home']">The Game</a></li>
           <li class="{{currentUrl ==  'ratings' ?  'is-active': ''}}"><a [routerLink]="['/ratings']" *ngIf="user">Ratings</a></li>
           <li class="{{currentUrl ==  'games' ?  'is-active': ''}}"><a [routerLink]="['/games']" *ngIf="user">Games</a></li>
           <li class="{{currentUrl ==  'game' ?  'is-active': ''}}"><a [routerLink]="['/game','new']" *ngIf="user">New

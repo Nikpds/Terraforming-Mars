@@ -71,10 +71,24 @@ namespace Terraforming.Api.Controllers
             try
             {
                 var original = _db.Invitations.Find(invitation);
-                original.InivtationStatus = (InvitationStatus)status;
+                if (original.InivtationStatus != InvitationStatus.Pending)
+                {
+                    return BadRequest("The invitation has is no longer active");
+                }
+                 original.InivtationStatus = (InvitationStatus)status;
+                original.ActionDate = DateTime.UtcNow;
                 _db.Invitations.Update(original);
                 _db.SaveChanges();
-                return Ok(original);
+                if (original.InivtationStatus == InvitationStatus.Declined)
+                {
+                    return Ok(original);
+                }
+                else
+                {
+
+                    return Ok(original);
+                }
+               
             }
             catch (Exception exc)
             {

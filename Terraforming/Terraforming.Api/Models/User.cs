@@ -16,7 +16,7 @@ namespace Terraforming.Api.Models
         public bool IsActive { get; set; }
         public bool EmailConfirmed { get; set; }
         public string VerificationToken { get; set; }
-        public virtual ICollection<TeamUsers> TeamUsers { get; set; }
+        public virtual ICollection<TeamUser> TeamUsers { get; set; }
         public virtual ICollection<GameScore> GameScores { get; set; }
 
         [InverseProperty("User")]
@@ -26,7 +26,7 @@ namespace Terraforming.Api.Models
 
         public User()
         {
-            TeamUsers = new HashSet<TeamUsers>();
+            TeamUsers = new HashSet<TeamUser>();
             GameScores = new HashSet<GameScore>();
             Invitations = new HashSet<Invitation>();
             Invites = new HashSet<Invitation>();

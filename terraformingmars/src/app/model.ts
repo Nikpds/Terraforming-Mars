@@ -37,14 +37,8 @@ export class Team {
     created: Date;
     owner: User;
     icon: string;
-    teamUsers: Array<TeamUsers>;
     constructor() {
-        this.teamUsers = new Array<TeamUsers>();
     }
-}
-
-export class TeamUsers {
-
 }
 
 export class GameScore {
@@ -65,4 +59,50 @@ export enum BoardMats {
     Basic,
     Hellas,
     Elysium
+}
+
+export class InvitationDto {
+    fullname: string;
+    status: InvitationStatus;
+    actionDate: Date;
+    created: Date;
+    isMember: boolean;
+}
+
+export enum InvitationStatus {
+    Pending,
+    Accepted,
+    Declined
+}
+
+export class Invitation {
+
+}
+
+export class UserProfile {
+    firstname: string;
+    lastname: string;
+    nickname: string;
+    email: string;
+    teams: Array<Team>;
+    invitations: Array<Invitation>;
+    constructor() {
+        this.teams = new Array<Team>();
+        this.invitations = new Array<Invitation>();
+    }
+}
+
+export interface Invitation {
+    id: string;
+    userId: string;
+    user: User;
+    ownerId: string;
+    owner: User;
+    teamId: string;
+    teamTitle: string;
+    comments: string;
+    created: Date | string;
+    inivtationStatus: InvitationStatus;
+    actionDate: Date | string;
+
 }

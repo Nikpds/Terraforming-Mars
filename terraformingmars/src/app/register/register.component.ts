@@ -32,10 +32,12 @@ export class RegisterComponent implements OnInit {
     this.loader.show();
     this.service.registerUser(this.user).subscribe(res => {
       this.loader.hide();
-      this.toastr.success();
+      this.toastr.success('Your registration has been completed. '
+        + 'The activation of you account is pending.');
       this.route.navigate(['/login']);
     }, error => {
       this.loader.hide();
+      this.toastr.danger(error);
     });
   }
 

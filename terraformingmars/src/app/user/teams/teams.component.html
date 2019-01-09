@@ -124,7 +124,23 @@
             <textarea class="textarea" [(ngModel)]="comments" placeholder="Hi wanna join my team?"></textarea>
           </div>
         </div>
-        
+        <div class="field">
+          <nav class="panel">
+            <p class="panel-heading">
+              Members and Invitations
+            </p>
+            <span class="panel-block" *ngFor="let item of members;let i = index">
+              <span class="panel-icon">
+                <i class="fa {{item.isMember ? 'fa-user' : 'fa-clock-o has-text-warning'}} fa-2x" aria-hidden="true"></i>
+              </span>
+              <span class="panel-text">{{item.fullname}}</span>
+              <span class="is-size-7 is-italic">
+                {{item.isMember ? 'joinded: '+ (item.actionDate | date:'dd-MM-yyyy'): 'sent: ' + (item.created |
+                date:'dd-MM-yyyy')}}
+              </span>
+            </span>
+          </nav>
+        </div>
       </div>
       <app-team-details [team]="newTeam" (actionPerfomed)="addOrUpdate($event)"></app-team-details>
     </div>

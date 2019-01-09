@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Team, UserSearchView } from '../model';
+import { Team, UserSearchView, InvitationDto, UserProfile } from '../model';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +38,21 @@ export class UserService {
 
   sendInvitation(teamId: string, userToId: string, comments: string) {
     return this.http.post<Boolean>(`${this.url}/invitation/invites/${teamId}/${userToId}/${comments}`, {})
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getMembersAndInvites(id: string) {
+    return this.http.get<Array<InvitationDto>>(`${this.url}/team/members/pending/invites/${id}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getProfile() {
+    return this.http.get<UserProfile>(`${this.url}/user/profile`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  joinDeclineTeam(st: number, id: string) {
+    return this.http.post<Team>(`${this.url}/invitation/reply/${st}/${id}`, {})
       .pipe(catchError(this.errorHandler));
   }
 

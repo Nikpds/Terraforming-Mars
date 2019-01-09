@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Terraforming.Api.Database;
 using Terraforming.Api.Models;
+using Terraforming.Api.ModelViews;
 using Terraforming.Api.Services;
 
 namespace Terraforming.Api.Controllers
@@ -24,6 +25,11 @@ namespace Terraforming.Api.Controllers
         {
             try
             {
+                var exists = _db.Teams.FirstOrDefault(x => x.Title.ToLowerInvariant() == team.Title.ToLowerInvariant());
+                if (exists != null)
+                {
+                    return BadRequest("There is already a Team with name " + team.Title + ". Please change the name and try again");
+                }
                 team.OwnerId = User.GetUserId();
                 team.Created = DateTime.UtcNow;
                 team.Updated = DateTime.UtcNow;
@@ -111,7 +117,9 @@ namespace Terraforming.Api.Controllers
         {
             try
             {
-                var result = _db.Teams.Include(t => t.TeamUsers).ThenInclude(u => u.User).Include(i => i.Owner).Where(x => x.OwnerId == User.GetUserId()).ToList();
+                var result = _db.Teams.Include(i => i.Owner)
+                    .Where(x => x.OwnerId == User.GetUserId())
+                    .ToList();
 
                 return Ok(result);
             }
@@ -126,9 +134,19 @@ namespace Terraforming.Api.Controllers
         {
             try
             {
-                var members = _db.TeamsUsers.Include(x => x.User).Where(x => x.TeamId == id).Select(x => x.User).ToList();
-                var invitations = _db.Invitations.Include(x => x.User).Where(x => x.TeamId == id && x.InivtationStatus == InvitationStatus.Pending).Select(x => x.User).ToList();
-                return Ok();
+                var invitations = from obj in _db.Invitations
+                    .Include(x => x.User)
+                    .Where(x => x.TeamId == id)
+                                  select new InvitationDto
+                                  {
+                                      Fullname = string.Join(" ", obj.User.Firstname, obj.User.Lastname),
+                                      ActionDate = obj.ActionDate,
+                                      Created = obj.Created,
+                                      IsMember = obj.InivtationStatus == InvitationStatus.Accepted,
+                                      Status = obj.InivtationStatus
+                                  };
+                var result = invitations.OrderBy(x => x.IsMember).ToList();
+                return Ok(result);
             }
             catch (Exception exc)
             {

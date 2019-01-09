@@ -13,16 +13,16 @@ namespace Terraforming.Api.Models
         public string OwnerId { get; set; }
         public DateTime Created { get; set; }
         public virtual User Owner { get; set; }
-        public virtual ICollection<TeamUsers> TeamUsers { get; set; }
-        public virtual ICollection<Invitation> Invations { get; set; }
+        public virtual ICollection<TeamUser> TeamUsers { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
 
         public Team()
         {
-            TeamUsers = new HashSet<TeamUsers>();
+            TeamUsers = new HashSet<TeamUser>();
         }
     }
 
-    public class TeamUsers : Entity
+    public class TeamUser
     {
         public string TeamId { get; set; }
         public virtual Team Team { get; set; }

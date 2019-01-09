@@ -7,25 +7,26 @@ declare var toastr: any;
 export class ToastrService {
   constructor() {
     toastr.options.progressBar = true;
+    toastr.options.positionClass = 'toast-bottom-right';
   }
 
   success(message = 'Your action was completed', title = 'Success') {
     toastr.success(message, title);
   }
 
-  warning(message, title = 'Warning') {
+  warning(message: string, title = 'Warning') {
     toastr.warning(message, title);
   }
 
-  info(message, title = 'Information') {
+  info(message: string, title = 'Information') {
     toastr.info(message, title);
   }
 
-  danger(message, title = 'Error') {
+  danger(message: string, title = 'Error') {
     toastr.error(message, title);
   }
 
-  confirm(message, title = 'Are you sure ?') {
+  confirm(message: string, title = 'Are you sure ?') {
     toastr.options = {
       'closeButton': false,
       'progressBar': false,

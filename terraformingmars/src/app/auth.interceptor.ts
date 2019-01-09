@@ -27,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
             }),
             catchError(error => {
                 const err = (typeof error.error) === 'string' ? error.error :
-                    'Σφάλμα εφαρμογής. Παρακαλώ επικοινωνήστε με τον διαχειρηστή της εφαρμογής.';
+                    'Application Error. Please try again later.';
                 return throwError(err);
             }),
             finalize(() => {

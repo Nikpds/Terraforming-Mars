@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Terraforming.Api.Database;
 
 namespace Terraforming.Api.Migrations
 {
     [DbContext(typeof(MsDataContext))]
-    partial class MsDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190109152824_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,17 +125,24 @@ namespace Terraforming.Api.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Terraforming.Api.Models.TeamUser", b =>
+            modelBuilder.Entity("Terraforming.Api.Models.TeamUsers", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("TeamId");
 
-                    b.HasKey("UserId", "TeamId");
+                    b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamUsers");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamsUsers");
                 });
 
             modelBuilder.Entity("Terraforming.Api.Models.User", b =>
@@ -204,7 +213,7 @@ namespace Terraforming.Api.Migrations
                         .HasForeignKey("OwnerId");
                 });
 
-            modelBuilder.Entity("Terraforming.Api.Models.TeamUser", b =>
+            modelBuilder.Entity("Terraforming.Api.Models.TeamUsers", b =>
                 {
                     b.HasOne("Terraforming.Api.Models.Team", "Team")
                         .WithMany("TeamUsers")

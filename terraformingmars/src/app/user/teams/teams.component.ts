@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Team, UserSearchView } from 'src/app/model';
+import { Team, UserSearchView, InvitationDto } from 'src/app/model';
 import { LoaderService } from 'src/app/shared/loader.service';
 import { ToastrService } from 'src/app/toastr.service';
 import { UserService } from '../user.service';
@@ -13,6 +13,7 @@ export class TeamsComponent implements OnInit {
   teams = new Array<Team>();
   selectedTeam: Team;
   selectedUser: string;
+  members = new Array<InvitationDto>();
   newTeam: Team;
   searchField: string;
   showAddMember = false;
@@ -35,9 +36,19 @@ export class TeamsComponent implements OnInit {
       this.loader.hide();
       this.teams = res;
     }, error => {
+      this.toastr.danger(error);
       this.loader.hide();
     });
   }
+
+  getMembersOfTeam() {
+    this.service.getMembersAndInvites(this.selectedTeam.id).subscribe(res => {
+      this.members = res;
+    }, error => {
+      this.toastr.danger(error);
+    });
+  }
+
 
   addOrUpdate(t: Team) {
     console.log(t);
@@ -55,6 +66,7 @@ export class TeamsComponent implements OnInit {
     this.closeAddMember();
     this.newTeam = null;
     this.selectedTeam = this.teams[i];
+    this.getMembersOfTeam();
   }
 
   searchUser() {

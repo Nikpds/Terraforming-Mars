@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
         this.route.navigate(['/home']);
       }
     }, error => {
+      this.toastr.danger(error);
       this.loader.hide();
 
     });

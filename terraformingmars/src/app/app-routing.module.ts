@@ -11,15 +11,14 @@ import { TeamsComponent } from './user/teams/teams.component';
 import { GamesComponent } from './user/games/games.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { UsersComponent } from './user/users/users.component';
-import { TeamDetailsComponent } from './user/team-details/team-details.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'teams', component: TeamsComponent },
-  { path: 'login', component: ProfileComponent },
-  { path: 'register', component: GamesComponent },
+  { path: 'teams', component: TeamsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesListComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'ratings', component: RatingsComponent, canActivate: [AuthGuard] },

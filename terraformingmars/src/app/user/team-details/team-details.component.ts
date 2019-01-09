@@ -20,7 +20,6 @@ export class TeamDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
   }
 
   onIconPickerSelect(icon: any) {
@@ -32,21 +31,27 @@ export class TeamDetailsComponent implements OnInit {
   }
 
   insertTeam() {
+    this.loader.show();
     this.service.createTeam(this.team).subscribe(res => {
       this.loader.hide();
       this.team = res;
+      this.toastr.success();
       this.emitAction();
     }, error => {
+      this.toastr.danger(error);
       this.loader.hide();
     });
   }
 
   editTeam() {
+    this.loader.show();
     this.service.updateTeam(this.team).subscribe(res => {
       this.loader.hide();
       this.team = res;
+      this.toastr.success();
       this.emitAction();
     }, error => {
+      this.toastr.danger(error);
       this.loader.hide();
     });
   }
