@@ -44,6 +44,7 @@ namespace Terraforming.Api.Controllers
                 user.PasswordHash = AuthManager.HashPassword(user.Password);
                 user.VerificationToken = string.Empty;
                 user.Updated = DateTime.UtcNow;
+                user.UserRole = UserRole.User;
                 //To do initiate email validation
                 var result = _db.Users.Add(user).Entity;
                 _db.SaveChanges();
@@ -97,39 +98,38 @@ namespace Terraforming.Api.Controllers
             }
         }
 
-        [HttpPost("external")]
-        public IActionResult GoogleOrFacebook([FromBody]User user)
-        {
-            return Ok();
-            //try
-            //{
-            //    //check for email duplicates
-            //    var exists = _db.Users.Where(x => x.Email.ToLower() == user.Email.ToLower()).FirstOrDefault();
+        //[HttpPost("external")]
+        //public IActionResult GoogleOrFacebook([FromBody]User user)
+        //{
+        //    try
+        //    {
+        //        //check for email duplicates
+        //        var exists = _db.Users.Where(x => x.Email.ToLower() == user.Email.ToLower()).FirstOrDefault();
 
-            //    if (exists == null)
-            //    {
-            //        user.Email = user.Email.ToLower();
-            //        user.EmailConfirmed = true;
-            //        user.ExternaLogin = true;
-            //        user.Updated = DateTime.UtcNow;
-            //        user.IsActive = true;
-            //        user.PasswordHash = string.Empty;
-            //        user.VerificationToken = string.Empty;
-            //        var result = _db.Users.Add(user);
-            //        _db.SaveChanges();
-            //        var userToken = _auth.CreateToken(result.Entity);
-            //        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
-            //    }
-            //    else
-            //    {
-            //        var userToken = _auth.CreateToken(exists);
-            //        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
-            //    }
-            //}
-            //catch (Exception exc)
-            //{
-            //    return BadRequest(exc.Message);
-            //}
-        }
+        //        if (exists == null)
+        //        {
+        //            user.Email = user.Email.ToLower();
+        //            user.EmailConfirmed = true;
+        //            user.ExternaLogin = true;
+        //            user.Updated = DateTime.UtcNow;
+        //            user.IsActive = true;
+        //            user.PasswordHash = string.Empty;
+        //            user.VerificationToken = string.Empty;
+        //            var result = _db.Users.Add(user);
+        //            _db.SaveChanges();
+        //            var userToken = _auth.CreateToken(result.Entity);
+        //            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+        //        }
+        //        else
+        //        {
+        //            var userToken = _auth.CreateToken(exists);
+        //            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(userToken) });
+        //        }
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        return BadRequest(exc.Message);
+        //    }
+        //}
     }
 }

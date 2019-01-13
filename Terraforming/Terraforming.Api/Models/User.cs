@@ -18,6 +18,7 @@ namespace Terraforming.Api.Models
         public string VerificationToken { get; set; }
         public virtual ICollection<TeamUser> TeamUsers { get; set; }
         public virtual ICollection<GameScore> GameScores { get; set; }
+        public UserRole UserRole { get; set; }
 
         [InverseProperty("User")]
         public virtual ICollection<Invitation> Invitations { get; set; }
@@ -31,5 +32,12 @@ namespace Terraforming.Api.Models
             Invitations = new HashSet<Invitation>();
             Invites = new HashSet<Invitation>();
         }
+    }
+
+    public enum UserRole
+    {
+        Admin,
+        User,
+        GM
     }
 }

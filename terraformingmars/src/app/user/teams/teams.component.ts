@@ -15,7 +15,7 @@ export class TeamsComponent implements OnInit {
   selectedUser: string;
   members = new Array<InvitationDto>();
   newTeam: Team;
-  searchField: string;
+  searchField = '';
   showAddMember = false;
   comments: string;
   usersFound = new Array<UserSearchView>();
@@ -49,9 +49,7 @@ export class TeamsComponent implements OnInit {
     });
   }
 
-
   addOrUpdate(t: Team) {
-    console.log(t);
     const i = this.teams.findIndex(x => x.id === t.id);
     if (i > -1) {
       this.teams[i] = t;
@@ -78,7 +76,6 @@ export class TeamsComponent implements OnInit {
     if (this.searchField.length < 4) { return; }
     if (this.searchField.length === 4) {
       this.service.searchPlayersForInvitation(this.searchField).subscribe(res => {
-        console.log(res);
         this.focused = true;
         this.usersFound = res;
         this.usersResult = res;
@@ -100,13 +97,12 @@ export class TeamsComponent implements OnInit {
   }
 
   sendInvitation() {
-    // this.toastr.confirm('Send the invitation ?');
     this.loader.show();
     this.focused = false;
     this.service.sendInvitation(this.selectedUser, this.selectedTeam.id, this.comments).subscribe(res => {
-      console.log(res);
       this.toastr.success('The invitation was sent');
       this.loader.hide();
+      this.members.unshift(res);
       this.closeAddMember();
     }, error => {
       this.loader.hide();
@@ -115,11 +111,22 @@ export class TeamsComponent implements OnInit {
     });
   }
 
+  resendInitation(i: number) {
+    this.loader.show();
+    this.service.reSendInvitation(this.members[i].invitationsId).subscribe(res => {
+      this.toastr.success('The invitation was sent again');
+      this.loader.hide();
+      this.members[i] = res;
+    }, error => {
+      this.loader.hide();
+      this.toastr.success(error);
+    });
+  }
+
   confirmInvitation() {
     this.loader.show();
     this.focused = false;
     this.service.sendInvitation(this.selectedUser, this.selectedTeam.id, this.comments).subscribe(res => {
-      console.log(res);
       this.toastr.closeAll();
       this.loader.hide();
     }, error => {
@@ -153,19 +160,23 @@ export class TeamsComponent implements OnInit {
     this.service.deleteTeam(this.selectedTeam.id).subscribe(res => {
       this.loader.hide();
       this.teams.splice(i, 1);
-      this.selectedTeam = null;
+      this.closeAddMember();
       this.newTeam = null;
+      this.toastr.success('Team was deleted');
     }, error => {
       this.loader.hide();
+      this.toastr.danger(error);
     });
   }
 
   closeAddMember() {
     this.selectedUser = null;
-    this.searchField = null;
+    this.searchField = '';
     this.showAddMember = false;
     this.usersFound = new Array<UserSearchView>();
     this.usersResult = new Array<UserSearchView>();
     this.focused = false;
+    this.comments = null;
+    this.members = new Array<InvitationDto>();
   }
 }

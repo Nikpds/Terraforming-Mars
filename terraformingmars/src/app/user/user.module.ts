@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import { Routes, RouterModule } from '@angular/router';
 import { TeamsComponent } from './teams/teams.component';
 import { GamesComponent } from './games/games.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -7,6 +8,7 @@ import { TeamDetailsComponent } from './team-details/team-details.component';
 
 import { UserService } from './user.service';
 import { UsersComponent } from './users/users.component';
+import { ChangepasswordComponent } from './profile/changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { UsersComponent } from './users/users.component';
     GamesComponent,
     ProfileComponent,
     TeamDetailsComponent,
-    UsersComponent
+    UsersComponent,
+    ChangepasswordComponent
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    RouterModule
   ], exports: [
 
   ], providers: [

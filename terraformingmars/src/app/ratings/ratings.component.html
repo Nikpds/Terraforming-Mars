@@ -1,44 +1,42 @@
-<section class="hero is-small">
+<section class="section">
   <div class="container">
-    <div class="hero-body">
-      <div class="card has-background-transparent">
-        <table class="table is-fullwidth is-striped has-background-transparent">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Champion</th>
-              <th>Games</th>
-              <th>Score</th>
-              <th>Total Points</th>
-              <th>Awards</th>
-              <th>Milestones</th>
-              <th>1st</th>
-              <th>2nd</th>
-              <th>3rd</th>
-              <th>4th</th>
-              <th>5th</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of users;let i = index">
-              <td>{{i + 1}}</td>
-              <td class="has-text-link">{{item.lastname}} {{item.firstname}}</td>
-              <td>{{item.gameScores.length}}</td>
-              <td>
-                <span class="has-text-primary">{{winRatio(i)}} %</span>
-              </td>
-              <td>{{getTotalPoints(i)}}</td>
-              <td>{{getTotalAwards(i)}}</td>
-              <td>{{getTotalMilestones(i)}}</td>
-              <td>{{getTotalCountOfPlacement(i,1)}}</td>
-              <td>{{getTotalCountOfPlacement(i,2)}}</td>
-              <td>{{getTotalCountOfPlacement(i,3)}}</td>
-              <td>{{getTotalCountOfPlacement(i,4)}}</td>
-              <td>{{getTotalCountOfPlacement(i,5)}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="card has-background-transparent">
+      <table class="table is-fullwidth is-striped has-background-transparent">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Champion</th>
+            <th>Games</th>
+            <th>Score</th>
+            <th>Total Points</th>
+            <th>Awards</th>
+            <th>Milestones</th>
+            <th>1st</th>
+            <th>2nd</th>
+            <th>3rd</th>
+            <th>4th</th>
+            <th>5th</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of users;let i = index">
+            <td>{{i + 1}}</td>
+            <td class="has-text-link">{{item.nickname}}</td>
+            <td>{{item.gameScores.length}}</td>
+            <td>
+              <span class="has-text-primary">{{winRatio(i)}} %</span>
+            </td>
+            <td>{{getTotalPoints(i)}}</td>
+            <td>{{getTotalAwards(i)}}</td>
+            <td>{{getTotalMilestones(i)}}</td>
+            <td>{{getTotalCountOfPlacement(i,1)}}</td>
+            <td>{{getTotalCountOfPlacement(i,2)}}</td>
+            <td>{{getTotalCountOfPlacement(i,3)}}</td>
+            <td>{{getTotalCountOfPlacement(i,4)}}</td>
+            <td>{{getTotalCountOfPlacement(i,5)}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>

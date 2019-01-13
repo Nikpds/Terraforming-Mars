@@ -245,3 +245,40 @@ h5.msg {
     font-size: 3em;
     animation: fadeInDown2 5s infinite;
 }
+
+/* Table */
+
+@media only screen and (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    tr:not(:last-child) {
+        border-bottom: 1px solid #eee!important;
+    }
+    td {
+        /* Behave  like a "row" */
+        border-top: 1px solid rgba(156, 156, 156, 0.3)!important;
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+    td:before {
+        /* Now like a table header */
+        position: relative;       
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+ 
+}

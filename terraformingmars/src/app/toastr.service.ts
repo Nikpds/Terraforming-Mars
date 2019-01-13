@@ -49,7 +49,6 @@ export class ToastrService {
   }
   resultFn(b: boolean): boolean {
     toastr.clear();
-    console.log(b);
     return b;
   }
 

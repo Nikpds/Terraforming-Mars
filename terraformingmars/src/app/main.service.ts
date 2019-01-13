@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { User, Game } from './model';
+import { User, Game, Team } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +17,6 @@ export class MainService {
 
   registerUser(user: User) {
     return this.http.post<User>(`${this.url}/auth`, user)
-      .pipe(catchError(this.errorHandler));
-  }
-  // not used
-  getPlayers() {
-    return this.http.get<Array<User>>(`${this.url}/user`)
-      .pipe(catchError(this.errorHandler));
-  }
-
-  externalRegister(user: User) {
-    return this.http.post<any>(`${this.url}/auth/external`, user)
       .pipe(catchError(this.errorHandler));
   }
 
@@ -52,6 +42,16 @@ export class MainService {
 
   getRatings() {
     return this.http.get<Array<User>>(`${this.url}/game/ratings`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getTeamMates(id: string) {
+    return this.http.get<Array<User>>(`${this.url}/user/teammates/${id}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getMyTeams() {
+    return this.http.get<Array<Team>>(`${this.url}/team/teams/game`)
       .pipe(catchError(this.errorHandler));
   }
 

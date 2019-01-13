@@ -5,13 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Terraforming.Api.Authorization;
 using Terraforming.Api.Database;
+using Terraforming.Api.Models;
 using Terraforming.Api.ModelViews;
 using Terraforming.Api.Services;
 
 namespace Terraforming.Api.Controllers
 {
-    [Authorize]
+
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -21,6 +23,7 @@ namespace Terraforming.Api.Controllers
             _db = db;
         }
 
+        [Authorize(Policy = "Administrator")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -36,7 +39,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
-
+        [Authorize(Policy = "GameMaster")]
         [HttpGet("search/{field}")]
         public IActionResult SearcUserForInvitation(string field)
         {
@@ -60,7 +63,8 @@ namespace Terraforming.Api.Controllers
                 return BadRequest(exc.Message);
             }
         }
-        
+
+        [Authorize]
         [HttpGet("profile")]
         public IActionResult GetProfile()
         {
@@ -76,8 +80,23 @@ namespace Terraforming.Api.Controllers
                 profile.Teams = _db.TeamUsers.Include(i => i.Team)
                     .Where(x => x.UserId == userId)
                     .Select(s => s.Team).ToList();
-                profile.Invitations = _db.Invitations.Include(i => i.Owner).Where(x => x.UserId == userId).ToList();
-                profile.Invitations.ToList().ForEach(x => x.User = null);
+                profile.Invitations = (from obj in _db.Invitations.Include(i => i.Owner)
+                                      .Include(i => i.Team).Where(x => x.UserId == userId)
+                                       select new InvitationViewDto
+                                       {
+                                           ActionDate = obj.ActionDate,
+                                           Color = obj.Team.Color,
+                                           Comments = obj.Comments,
+                                           Created = obj.Created,
+                                           Icon = obj.Team.Icon,
+                                           Id = obj.Id,
+                                           IsMember = obj.InivtationStatus == InvitationStatus.Accepted,
+                                           OwnerName = string.Join(" ", obj.Owner.Lastname, obj.Owner.Firstname),
+                                           Status = obj.InivtationStatus,
+                                           TeamId = obj.TeamId,
+                                           Title = obj.TeamTitle
+                                       }).ToList();
+
                 return Ok(profile);
             }
             catch (Exception exc)
@@ -86,19 +105,91 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "GameMaster")]
         [HttpGet("teammates/{teamId}")]
         public IActionResult GetTeamMates(string teamId)
         {
             try
             {
-                var result = _db.Users.Where(x => x.TeamUsers.Any(a => a.TeamId == teamId)).ToList();
-                result.ForEach(x => x.PasswordHash = null);
-                return Ok(result);
+                var userId = User.GetUserId();
+                var users = _db.Teams.Include(i => i.TeamUsers)
+                    .ThenInclude(u => u.User)
+                    .SingleOrDefault(x => x.Id == teamId).TeamUsers.Select(s => s.User);
+                return Ok(users);
             }
             catch (Exception exc)
             {
                 return BadRequest(exc.Message);
             }
         }
+
+        [Authorize(Policy = "Administrator")]
+        [HttpPost("resetpassword/{userId}")]
+        public IActionResult ResetUsersPassword(string userId)
+        {
+            try
+            {
+                var user = _db.Users.Single(s => s.Id == userId);
+                user.PasswordHash = AuthManager.HashPassword("12345");
+                _db.Users.Update(user);
+                _db.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+        }
+
+        [Authorize(Policy = "Administrator")]
+        [HttpPost("activate/{userId}/{status}")]
+        public IActionResult ActivateDeactiateUser(string userId, bool status)
+        {
+            try
+            {
+                var user = _db.Users.Single(s => s.Id == userId);
+                if (user == null)
+                {
+                    return BadRequest("Invalid user");
+                }
+
+                user.IsActive = status;
+                _db.Users.Update(user);
+                _db.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("changepassword/{current}/{newpassword}")]
+        public IActionResult ResetUsersPassword(string current,string newpassword)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var user = _db.Users.Single(s => s.Id == userId);
+                if (user == null)
+                {
+                    return BadRequest("User does not exist");
+                }
+                if (!(AuthManager.VerifyHashedPassword(user.PasswordHash, current)))
+                {
+                    return BadRequest("Current Password is Incorrect");
+                }
+                user.PasswordHash = AuthManager.HashPassword(current);
+                _db.Users.Update(user);
+                _db.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+        }
+
     }
 }

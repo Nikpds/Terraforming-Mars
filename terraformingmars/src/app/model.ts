@@ -5,9 +5,11 @@ export class User {
     nickname: string;
     email: string;
     password: string;
+    isActive: boolean;
     externaLogin: boolean;
     teams: Array<Team>;
     gameScores: Array<GameScore>;
+    userRole: UserRole;
     constructor() {
         this.gameScores = new Array<GameScore>();
         this.teams = new Array<Team>();
@@ -37,6 +39,8 @@ export class Team {
     created: Date;
     owner: User;
     icon: string;
+    // Not Mapped
+    members: number;
     constructor() {
     }
 }
@@ -67,6 +71,7 @@ export class InvitationDto {
     actionDate: Date;
     created: Date;
     isMember: boolean;
+    invitationsId: string;
 }
 
 export enum InvitationStatus {
@@ -85,10 +90,10 @@ export class UserProfile {
     nickname: string;
     email: string;
     teams: Array<Team>;
-    invitations: Array<Invitation>;
+    invitations: Array<InvitationViewDto>;
     constructor() {
         this.teams = new Array<Team>();
-        this.invitations = new Array<Invitation>();
+        this.invitations = new Array<InvitationViewDto>();
     }
 }
 
@@ -105,4 +110,27 @@ export interface Invitation {
     inivtationStatus: InvitationStatus;
     actionDate: Date | string;
 
+}
+
+export interface InvitationViewDto {
+    id: string;
+    ownerName: string;
+    teamId: string;
+    title: string;
+    color: string;
+    icon: string;
+
+    comments: string;
+    status: InvitationStatus;
+    actionDate: Date | string;
+    created: Date | string;
+
+    isMember: boolean;
+
+}
+
+export enum UserRole {
+    Admin,
+    User,
+    GM
 }

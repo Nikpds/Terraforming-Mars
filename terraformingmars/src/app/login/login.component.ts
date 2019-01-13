@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.username, this.password).subscribe(res => {
       this.loader.hide();
       if (res) {
-        this.toastr.success();
         this.username = null;
         this.password = null;
         this.route.navigate(['/home']);

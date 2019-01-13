@@ -45,11 +45,15 @@ export class AuthService {
   initializeUser(token: any) {
     if (!token) { return; }
     const info = this.jwt.decodeToken(token);
-    this.user = new User();
-    this.user.id = info.Id;
-    this.user.firstname = info.Name;
-    this.user.lastname = info.Lastname;
-    this.user.email = info.Email;
+    const u = new User();
+    u.id = info.Id;
+    u.firstname = info.Name;
+    u.lastname = info.Lastname;
+    u.email = info.Email;
+    u.userRole = +info.UserRole;
+    u.nickname = info.Nickname;
+    this.user = u;
+
   }
 
   login(username: string, password: string): Observable<boolean> {

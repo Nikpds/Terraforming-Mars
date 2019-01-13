@@ -13,13 +13,13 @@ namespace Terraforming.Api.ModelViews
         public string Nickname { get; set; }
         public string Email { get; set; }
 
-        public ICollection<Invitation> Invitations { get; set; }
+        public ICollection<InvitationViewDto> Invitations { get; set; }
         public ICollection<Team> Teams { get; set; }
 
         public UserProfile()
         {
             Teams = new HashSet<Team>();
-            Invitations = new HashSet<Invitation>();
+            Invitations = new HashSet<InvitationViewDto>();
         }
 
         public UserProfile(User u)
@@ -29,7 +29,7 @@ namespace Terraforming.Api.ModelViews
             Nickname = u.Nickname;
             Email = u.Email;
             Teams = new HashSet<Team>();
-            Invitations = new HashSet<Invitation>();
+            Invitations = new HashSet<InvitationViewDto>();
         }
     }
 }

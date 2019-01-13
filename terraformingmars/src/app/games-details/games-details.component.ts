@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User, Game, GameScore, BoardMats } from '../model';
+import { User, Game, GameScore, BoardMats, Team } from '../model';
 import { MainService } from '../main.service';
 import { UtilityService } from '../shared/utility.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LoaderService } from '../shared/loader.service';
+import { ToastrService } from '../toastr.service';
 
 @Component({
   selector: 'app-games-details',
@@ -15,13 +16,16 @@ export class GamesDetailsComponent implements OnInit {
   game: Game;
   gameScore: GameScore;
   boards: any;
+  teamId: string;
   boardId = 0;
+  teams = new Array<Team>();
   constructor(
     private service: MainService,
     private activeRoute: ActivatedRoute,
     private utility: UtilityService,
     private loader: LoaderService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -30,21 +34,33 @@ export class GamesDetailsComponent implements OnInit {
       if (id === 'new') {
         this.game = new Game();
         this.game.date = new Date();
+        this.getMyTeams();
       } else {
         this.router.navigate(['/home']);
       }
     });
     this.boards = this.utility.parseEnum(BoardMats);
-    this.getPlayers();
+
   }
 
-  getPlayers() {
-    this.service.getPlayers().subscribe(res => {
-      this.players = res;
+  getMyTeams() {
+    this.service.getMyTeams().subscribe(res => {
+      this.teamId = res[0].id;
+      this.teams = res;
+      this.getTeamPlayers();
     }, error => {
-
+      this.toastr.danger(error);
     });
   }
+
+  getTeamPlayers() {
+    this.service.getTeamMates(this.teamId).subscribe(res => {
+      this.players = res;
+    }, error => {
+      this.toastr.danger(error);
+    });
+  }
+
 
   addPlayer() {
     if (this.game.gamePlayers.length === 5) { return; }
@@ -52,7 +68,10 @@ export class GamesDetailsComponent implements OnInit {
   }
 
   addGameScoreToGame() {
-    if (!this.validatePlayerInput(this.gameScore)) { return; }
+    if (!this.validatePlayerInput(this.gameScore)) {
+      this.toastr.warning('You haven\'t fill all the fields correctly.');
+      return;
+    }
     this.game.gamePlayers.push(this.gameScore);
     this.game.gamePlayers.sort(function (a, b) { return a.place - b.place; });
     this.gameScore = null;
@@ -70,8 +89,10 @@ export class GamesDetailsComponent implements OnInit {
     this.service.addGame(this.game).subscribe(res => {
       this.game = res;
       this.loader.hide();
+      this.toastr.success('Game was successfully saved');
     }, error => {
       this.loader.hide();
+      this.toastr.danger(error);
     });
   }
 
@@ -80,8 +101,10 @@ export class GamesDetailsComponent implements OnInit {
     this.service.updateGame(this.game).subscribe(res => {
       this.game = res;
       this.loader.hide();
+      this.toastr.success('Game was successfully updated');
     }, error => {
       this.loader.hide();
+      this.toastr.danger(error);
     });
   }
 

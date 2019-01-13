@@ -1,3 +1,51 @@
-<p>
-  users works!
-</p>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-12 ">
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Nickname</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users;let i = index;">
+              <td>{{i + 1}}</td>
+              <td>{{u.lastname}} {{u.firstname}}</td>
+              <td>{{u.nickname}}</td>
+              <td>{{u.email}}
+              <td>
+                <span [ngSwitch]="u.isActive">
+                  <div class="tag is-success " *ngSwitchCase="true">active</div>
+                  <div class="tag is-danger" *ngSwitchCase="false">inactive</div>
+                </span>
+              </td>
+              <td>
+                <span [ngSwitch]="u.userRole">
+                  <i class="fa fa-user-secret fa-lg has-text-danger" *ngSwitchCase="0"></i>
+                  <i class="fa fa-user fa-lg" *ngSwitchCase="1"></i>
+                  <i class="fa fa-user-plus fa-lg has-text-link" *ngSwitchCase="2"></i>
+                </span>
+              </td>
+              <td>
+                <span class="buttons is-inline">
+                  <a class="button is-link is-small" (click)="resetPassword(u.id)">reset pwd</a>
+                  <span [ngSwitch]="u.isActive">
+                    <a class="button is-small is-warning" (click)="changeUserStatus(u.id,true)" *ngSwitchCase="false">Activate</a>
+                    <a class="button is-small is-danger" (click)="changeUserStatus(u.id,false)" *ngSwitchCase="true">Deactivate</a>
+                  </span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

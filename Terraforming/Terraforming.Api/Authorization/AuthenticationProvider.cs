@@ -31,6 +31,17 @@ namespace Terraforming.Api.Authorization
             claims.Add(new Claim("Lastname", user.Lastname));
             claims.Add(new Claim("Name", user.Firstname));
             claims.Add(new Claim("Email", user.Email));
+            claims.Add(new Claim("Nickname", user.Nickname));
+            claims.Add(new Claim("UserRole", ((int)user.UserRole).ToString()));
+            if (user.UserRole == UserRole.Admin)
+            {
+                claims.Add(new Claim("Administrator", user.UserRole.ToString()));
+                claims.Add(new Claim("GameMaster", user.UserRole.ToString()));
+            }
+            if (user.UserRole == UserRole.GM)
+            {
+                claims.Add(new Claim("GameMaster", user.UserRole.ToString()));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

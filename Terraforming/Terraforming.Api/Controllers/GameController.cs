@@ -20,6 +20,7 @@ namespace Terraforming.Api.Controllers
             _db = db;
         }
 
+        [Authorize(Policy = "GameMaster")]
         [HttpPost]
         public IActionResult AddGame([FromBody] Game game)
         {
@@ -38,6 +39,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "GameMaster")]
         [HttpPut]
         public IActionResult UpdateGame([FromBody] Game game)
         {
@@ -54,6 +56,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "GameMaster")]
         [HttpDelete("{id}")]
         public IActionResult DeleteGame(string id)
         {
@@ -75,6 +78,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetGame(string id)
         {
@@ -94,6 +98,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("all")]
         public IActionResult GetGames()
         {
@@ -113,6 +118,7 @@ namespace Terraforming.Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("ratings")]
         public IActionResult GetRatings()
         {

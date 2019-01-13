@@ -3,7 +3,7 @@
   <div class="columns is-paddingless is-multiline">
     <div class="column is-12">
       <div class="notification">
-        <nav class="level">
+        <nav class="level is-mobile">
           <div class="level-left">
             <div class="level-item">
               Joined Teams
@@ -20,7 +20,7 @@
     <div class="column  is-5">
       <div class="notification is-hover" [ngClass]="{'active-not': selectedTeam?.id === item.id}" (click)="selectTeam(i)"
         *ngFor="let item of teams;let i = index">
-        <nav class="level">
+        <nav class="level is-mobile">
           <div class="level-left">
             <div class="level-item">
               <i class="{{item.icon}} fa-3x" [ngStyle]="{'color': item.color}"></i>
@@ -28,7 +28,7 @@
             <div class="level-item">
               <div>
                 <p class="has-text-link">{{item.title}}</p>
-                <small class="">Members: {{item.teamUsers.length}}</small>
+                <small class="">Members: {{item.members}}</small>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
         </div>
         <br>
         <p class="margin-top has-text-link is-size-5">{{selectedTeam.title}}</p>
-        <nav class="level ">
+        <nav class="level">
           <div class="level-left">
             <p class="is-size-7">Owner: {{selectedTeam.owner.lastname}} {{selectedTeam.owner.firstname}}</p>
           </div>
@@ -131,12 +131,20 @@
             </p>
             <span class="panel-block" *ngFor="let item of members;let i = index">
               <span class="panel-icon">
-                <i class="fa {{item.isMember ? 'fa-user' : 'fa-clock-o has-text-warning'}} fa-2x" aria-hidden="true"></i>
+                <span [ngSwitch]="item.status">
+                  <i class="fa fa-clock-o has-text-warning" *ngSwitchCase="0"></i>
+                  <i class="fa fa-user has-text-success" *ngSwitchCase="1"></i>
+                  <i class="fa fa-times has-text-danger" *ngSwitchCase="2"></i>
+                </span>
               </span>
-              <span class="panel-text">{{item.fullname}}</span>
+              <span class="panel-text">{{item.fullname}}&nbsp;
+                <a class="has-text-link nostyle  is-size-7" (click)="resendInitation(i)" *ngIf="item.status == 2">Resend</a> </span>
               <span class="is-size-7 is-italic">
-                {{item.isMember ? 'joinded: '+ (item.actionDate | date:'dd-MM-yyyy'): 'sent: ' + (item.created |
-                date:'dd-MM-yyyy')}}
+                <span [ngSwitch]="item.status">
+                  <span *ngSwitchCase="0">sent: {{item.created | date:'dd-MM-yyyy'}}</span>
+                  <span *ngSwitchCase="1">joinded: {{item.actionDate | date:'dd-MM-yyyy'}}</span>
+                  <span *ngSwitchCase="2">declined: {{item.actionDate | date:'dd-MM-yyyy'}}</span>
+                </span>
               </span>
             </span>
           </nav>

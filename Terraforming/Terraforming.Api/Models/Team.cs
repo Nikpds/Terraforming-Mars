@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ namespace Terraforming.Api.Models
         public virtual User Owner { get; set; }
         public virtual ICollection<TeamUser> TeamUsers { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
+        [NotMapped]
+        public int Members { get; set; }
 
         public Team()
         {
@@ -37,6 +40,7 @@ namespace Terraforming.Api.Models
         public string OwnerId { get; set; }
         public virtual User Owner { get; set; }
         public string TeamId { get; set; }
+        public virtual Team Team { get; set; }
         public string TeamTitle { get; set; }
         public string Comments { get; set; }
         public DateTime Created { get; set; }

@@ -14,7 +14,7 @@
           </div>
           <div class="field">
             <div class="control">
-              <input class="input  is-link tran-input" [(ngModel)]="password" autocomplete=on type="password" name="password"
+              <input class="input  is-link tran-input" (keyup.enter)="login()" [(ngModel)]="password" autocomplete=on type="password" name="password"
                 placeholder="Password">
             </div>
           </div>

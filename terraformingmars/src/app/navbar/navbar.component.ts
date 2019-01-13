@@ -30,6 +30,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.currentUrl = url;
       }
     });
+    this.subscriptions.push(this.auth.user$.subscribe(user => {
+      if (user) {
+        this.user = user;
+      }
+    }));
   }
 
   @HostListener('window:scroll', [])
@@ -45,6 +50,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
+
   ngOnInit(): void {
     this.subscriptions.push(this.auth.user$.subscribe((user) => {
       this.user = user;

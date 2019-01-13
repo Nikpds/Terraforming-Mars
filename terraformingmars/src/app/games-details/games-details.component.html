@@ -4,6 +4,22 @@
       <div class="column is-12">
         <div class="field is-horizontal">
           <div class="field-label is-normal">
+            <label class="label has-text-left">Select Team</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <div class="select">
+                  <select [(ngModel)]="teamId" (change)="getTeamPlayers()">
+                    <option [value]="t.id" *ngFor="let t of teams">{{t.title}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
             <label class="label has-text-left">Date of Game</label>
           </div>
           <div class="field-body">

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Terraforming.Api.Database;
 
 namespace Terraforming.Api.Migrations
 {
     [DbContext(typeof(MsDataContext))]
-    partial class MsDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190112084612_userorle")]
+    partial class userorle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

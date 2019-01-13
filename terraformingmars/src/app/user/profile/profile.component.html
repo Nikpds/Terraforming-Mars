@@ -13,13 +13,16 @@
                     </figure>
                   </div>
                   <div class="media-content">
-                    <p class="title is-size-4-desktop is-size-5-tablet">{{user.firstname}} {{user.lastname}}</p>
-                    <p class="subtitle is-6 no-m-b">{{user.email}} </p>
-                    <p class="subtitle is-6">{{user.nickname}} </p>
-                    <nav class="level is-mobile">
+                    <p class="title is-size-4-desktop is-size-6-touch">{{user.firstname}} {{user.lastname}}</p>
+                    <p class="subtitle is-size-6-tablet is-size-7-mobile no-m-b">{{user.email}} </p>
+                    <p class="subtitleis-size-6-tablet">{{user.nickname}} </p>
+                    <nav class="level is-mobile is-size-7-mobile">
                       <div class="level-left">
                         <a class="level-item">
                           edit
+                        </a>
+                        <a class="level-item" [routerLink]="['change','password']"  >
+                          change password
                         </a>
                       </div>
                     </nav>
@@ -31,7 +34,20 @@
           <div class="column is-12">
             <div class="card" *ngIf="user">
               <div class="card-content">
-                <p class="title is-size-4-desktop is-size-5-tablet">Joined Teams</p>
+                <p class="title is-size-4-desktop is-size-5-touch">Joined Teams</p>
+                <nav class="level is-mobile" *ngFor="let item of user.teams">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <span class="icon"><i class="fa {{item.icon}}" [ngStyle]="{color: item.color}"></i></span>
+                      {{item.title}}
+                    </div>
+                  </div>
+                  <div class="level-right">
+                    <a class="level-item has-text-danger">
+                      leave
+                    </a>
+                  </div>
+                </nav>
               </div>
             </div>
           </div>
@@ -40,30 +56,45 @@
       <div class="column">
         <div class="card" *ngIf="user">
           <div class="card-content">
-            <p class="title is-size-4-desktop is-size-5-tablet">Team Invitations</p>
-            <div class="box" *ngFor="let item of user.invitations">
+            <p class="title is-size-4-desktop is-size-5-touch">Team Invitations</p>
+            <div class="" *ngFor="let item of user.invitations">
               <article class="media">
                 <div class="media-content">
                   <div class="content">
-                    <p>
-                      Name: <strong>{{item.teamTitle}}</strong> <br>
-                      Owner: <strong>{{item.owner.lastname}} {{item.owner.firstname}}</strong>
-                    </p>
+                    <nav class="level is-mobile">
+                      <div class="level-left">
+                        <div class="level-item">
+                          <div class="is-size-7-mobile">
+                            <div> Name: <strong>{{item.title}}</strong> </div>
+                            <div> Owner: <strong>{{item.ownerName}}</strong></div>
+                            <div> Comments: {{item.comments}}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="level-right">
+                        <div class="level-item">
+                          <div class="icon" [ngStyle]="{'color': item.color}">
+                            <i class="{{item.icon}} fa-around fa-3x fa-3x-mobile fa-3x-mobile "></i>
+                          </div>
+                        </div>
+                      </div>
+                    </nav>
+
                   </div>
-                  <nav class="level is-mobile">
+                  <nav class="level is-mobile is-size-7-mobile">
                     <div class="level-left">
                       <span class="level-item is-size-7 is-italic">
                         sent: {{item.created | date : 'dd-MM-yyyy'}}
                       </span>
                       <span class="level-item" aria-label="retweet">
-                        <span [ngSwitch]="item.inivtationStatus">
+                        <span [ngSwitch]="item.status">
                           <span *ngSwitchCase="0" class="tag is-small is-warning">pending</span>
                           <span *ngSwitchCase="1" class="tag is-small is-success">accepted</span>
-                          <span *ngSwitchCase="2" class="tag is-small is-warning">declined</span>
+                          <span *ngSwitchCase="2" class="tag is-small is-danger">declined</span>
                         </span>
                       </span>
                     </div>
-                    <div class="level-right" *ngIf="item.inivtationStatus == 0">
+                    <div class="level-right" *ngIf="item.status == 0">
                       <a class="level-item" (click)="joinDeclineTeam(1,item.id)">
                         join
                       </a>
