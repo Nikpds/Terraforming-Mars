@@ -50,6 +50,6 @@ export class RatingsComponent implements OnInit {
   winRatio(i: number) {
     const wins = this.users[i].gameScores.filter(x => x.place === 1).length;
     if (wins === 0) { return 0; }
-    return ((this.users[i].gameScores.length / wins) * 100).toFixed(0);
+    return ((wins / this.users[i].gameScores.length) * 100).toFixed(0);
   }
 }

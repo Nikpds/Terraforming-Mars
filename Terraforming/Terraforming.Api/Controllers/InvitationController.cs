@@ -68,7 +68,7 @@ namespace Terraforming.Api.Controllers
         {
             try
             {
-                var exists = _db.Invitations.Include(i => i.User).Single(x => x.TeamId == teamId && x.UserId == userTo);
+                var exists = _db.Invitations.Include(i => i.User).SingleOrDefault(x => x.TeamId == teamId && x.UserId == userTo);
                 if (exists != null)
                 {
                     return BadRequest("You have already sent invitation to " + exists.User.Lastname);
