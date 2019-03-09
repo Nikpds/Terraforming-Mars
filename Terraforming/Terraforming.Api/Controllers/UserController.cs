@@ -180,7 +180,7 @@ namespace Terraforming.Api.Controllers
                 {
                     return BadRequest("Current Password is Incorrect");
                 }
-                user.PasswordHash = AuthManager.HashPassword(current);
+                user.PasswordHash = AuthManager.HashPassword(newpassword);
                 _db.Users.Update(user);
                 _db.SaveChanges();
                 return Ok(true);

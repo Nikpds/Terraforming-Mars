@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Terraforming.Api.Database;
 using Terraforming.Api.Models;
+using Terraforming.Api.Services;
 
 namespace Terraforming.Api.Controllers
 {
@@ -111,6 +112,23 @@ namespace Terraforming.Api.Controllers
                 }
 
                 return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("get/mygames")]
+        public IActionResult GetUsersGames()
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var result = _db.Game.Include(i => i.GamePlayers).Where(x => x.GamePlayers.Any(y => y.UserId == userId)).ToList();
+                result.ForEach(g => g.GamePlayers.OrderBy(o => o.Place));
+                return Ok(result ?? new List<Game>());
             }
             catch (Exception exc)
             {

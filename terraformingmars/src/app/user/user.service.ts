@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Team, UserSearchView, InvitationDto, UserProfile, User } from '../model';
+import { Team, UserSearchView, InvitationDto, UserProfile, User, Game } from '../model';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +28,11 @@ export class UserService {
 
   getMyTeams() {
     return this.http.get<Array<Team>>(`${this.url}/team/created/teams`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getMyGames() {
+    return this.http.get<Array<Game>>(`${this.url}/game/get/mygames`)
       .pipe(catchError(this.errorHandler));
   }
 

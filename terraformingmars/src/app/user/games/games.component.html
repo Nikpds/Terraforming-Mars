@@ -1,3 +1,51 @@
-<p>
-  games works!
-</p>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-12 ">
+        <div class="box" *ngFor="let g of games">
+          <article class="media">
+            <div class="media-left">
+              <figure class="image image-size">
+                <img [src]="'../../../assets/map-' + g.gamePlayers[0].board + '.jpg'" alt="Image">
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <strong>Date: </strong> <small>{{g.date | date: 'dd-MM-yyyy'}}</small>
+                <br>
+                <table class="table is-fullwidth is-narrow is-striped">
+                  <tbody>
+                    <tr *ngFor="let p of g.gamePlayers;let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>Player</td>
+                      <td>{{p.points}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item" aria-label="reply">
+                    <span class="icon is-small">
+                      <i class="fa fa-reply" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="retweet">
+                    <span class="icon is-small">
+                      <i class="fa fa-retweet" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="like">
+                    <span class="icon is-small">
+                      <i class="fa fa-heart" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
